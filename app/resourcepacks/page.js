@@ -4,6 +4,8 @@ import { filterModsList } from '@/lib/contentFilter'
 import ResourcepackSidebarFilters from './ResourcepackSidebarFilters'
 import MobileMenu from './MobileMenu'
 
+export const runtime = 'edge'
+
 export default async function ResourcepacksPage({ searchParams }) {
   const query = searchParams.q || '';
   const version = searchParams.v || '';

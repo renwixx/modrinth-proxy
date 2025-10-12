@@ -4,6 +4,8 @@ import { filterModsList } from '@/lib/contentFilter'
 import ShaderSidebarFilters from './ShaderSidebarFilters'
 import MobileMenu from './MobileMenu'
 
+export const runtime = 'edge'
+
 export default async function ShadersPage({ searchParams }) {
   const query = searchParams.q || '';
   const version = searchParams.v || '';

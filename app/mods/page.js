@@ -4,6 +4,8 @@ import { filterModsList } from '@/lib/contentFilter'
 import SidebarFilters from './SidebarFilters'
 import MobileMenu from './MobileMenu'
 
+export const runtime = 'edge'
+
 export default async function ModsPage({ searchParams }) {
   const query = searchParams.q || '';
   const version = searchParams.v || '';

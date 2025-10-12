@@ -4,6 +4,8 @@ import { filterModsList } from '@/lib/contentFilter'
 import DatapackSidebarFilters from './DatapackSidebarFilters'
 import MobileMenu from './MobileMenu'
 
+export const runtime = 'edge'
+
 export default async function DatapacksPage({ searchParams }) {
   const query = searchParams.q || '';
   const version = searchParams.v || '';

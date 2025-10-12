@@ -4,6 +4,8 @@ import { filterModContent, isProjectBlocked } from '@/lib/contentFilter'
 import ModTabs from './ModTabs'
 import DownloadModal from '../../components/DownloadModal'
 
+export const runtime = 'edge'
+
 export default async function ModPage({ params, searchParams }) {
   const { slug } = params;
   
