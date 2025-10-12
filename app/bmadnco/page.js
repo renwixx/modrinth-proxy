@@ -115,6 +115,52 @@ export default function AboutPage() {
                   </div>
                 </li>
               </ul>
+
+              {/* Статистика блокировок */}
+              <div className="mt-8 bg-gradient-to-br from-purple-950/50 to-indigo-950/50 border border-purple-600/50 rounded-xl p-6">
+                <h3 className="text-xl font-bold text-purple-300 mb-6 text-center">Статистика фильтрации контента</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="bg-gradient-to-br from-red-900/40 to-red-800/20 rounded-xl p-6 border border-red-600/30 hover:border-red-500/60 transition-all duration-500 hover:scale-105 hover:shadow-xl hover:shadow-red-500/20">
+                    <div className="text-center">
+                      <div className="text-5xl font-bold text-red-400 mb-2 animate-pulse-slow">
+                        243
+                      </div>
+                      <div className="text-sm text-gray-400 mb-1">Заблокированных</div>
+                      <div className="text-lg font-semibold text-white">Проектов</div>
+                      <div className="mt-3 pt-3 border-t border-red-800/50">
+                        <p className="text-xs text-red-300/80">Моды, плагины и другой контент</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gradient-to-br from-orange-900/40 to-orange-800/20 rounded-xl p-6 border border-orange-600/30 hover:border-orange-500/60 transition-all duration-500 hover:scale-105 hover:shadow-xl hover:shadow-orange-500/20">
+                    <div className="text-center">
+                      <div className="text-5xl font-bold text-orange-400 mb-2 animate-pulse-slow" style={{ animationDelay: '0.2s' }}>
+                        1
+                      </div>
+                      <div className="text-sm text-gray-400 mb-1">Заблокированных</div>
+                      <div className="text-lg font-semibold text-white">Организаций</div>
+                      <div className="mt-3 pt-3 border-t border-orange-800/50">
+                        <p className="text-xs text-orange-300/80">Разработчики с запрещенным контентом</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gradient-to-br from-yellow-900/40 to-yellow-800/20 rounded-xl p-6 border border-yellow-600/30 hover:border-yellow-500/60 transition-all duration-500 hover:scale-105 hover:shadow-xl hover:shadow-yellow-500/20">
+                    <div className="text-center">
+                      <div className="text-5xl font-bold text-yellow-400 mb-2 animate-pulse-slow" style={{ animationDelay: '0.4s' }}>
+                        2
+                      </div>
+                      <div className="text-sm text-gray-400 mb-1">Заблокированных</div>
+                      <div className="text-lg font-semibold text-white">Медиафайлов</div>
+                      <div className="mt-3 pt-3 border-t border-yellow-800/50">
+                        <p className="text-xs text-yellow-300/80">Изображения с запрещенной символикой</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <div className="bg-purple-950/30 border border-purple-700/30 rounded-lg p-4 mt-4">
                 <p className="text-sm text-purple-200">
                   Все фильтры работают автоматически на стороне нашего сервера. Мы регулярно обновляем списки 
