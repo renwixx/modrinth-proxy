@@ -37,10 +37,12 @@ export default async function ModsPage({ searchParams }) {
     facets.push([`client_side:${environment === 'client' ? 'required' : 'optional'}`, `server_side:${environment === 'server' ? 'required' : 'optional'}`]);
   }
 
-  let data;
+  let data, blockedCount = 0;
   try {
     data = await searchMods({ query, facets, limit, offset });
-    data.hits = filterModsList(data.hits);
+    const filtered = filterModsList(data.hits);
+    data.hits = filtered.hits;
+    blockedCount = filtered.blockedCount;
   } catch (error) {
     return (
       <div className="text-center py-16">
@@ -63,6 +65,11 @@ export default async function ModsPage({ searchParams }) {
               <h1 className="text-2xl md:text-3xl font-bold mb-2">Minecraft моды</h1>
               <p className="text-gray-400 text-sm md:text-base">
                 {data.total_hits.toLocaleString('ru-RU')} модов найдено
+                {blockedCount > 0 && (
+                  <span className="text-red-400 ml-2">
+                    (из них {blockedCount} заблокировано по требованиям РКН)
+                  </span>
+                )}
               </p>
             </div>
             <form action="/mods" method="GET" className="w-full md:flex-1 md:max-w-md">

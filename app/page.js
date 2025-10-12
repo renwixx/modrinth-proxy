@@ -63,7 +63,7 @@ export default function Home() {
         {/* Статистика */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-12 md:mb-20 animate-fade-in-up animation-delay-1000">
           <div className="group bg-gradient-to-br from-modrinth-dark to-gray-900 p-8 rounded-2xl border border-white/10 hover:border-modrinth-green/50 transition-all duration-500 hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-modrinth-green/20 backdrop-blur-sm">
-            <div className="text-5xl mb-3 transform group-hover:scale-110 group-hover:rotate-12 transition-all duration-300">⚡</div>
+            <div className="text-5xl mb-3 transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">⚡</div>
             <div className="text-4xl font-bold text-modrinth-green mb-2">
               <AnimatedStats end={100} suffix="%" />
             </div>
@@ -72,7 +72,7 @@ export default function Home() {
           </div>
 
           <div className="group bg-gradient-to-br from-modrinth-dark to-gray-900 p-8 rounded-2xl border border-white/10 hover:border-blue-500/50 transition-all duration-500 hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20 backdrop-blur-sm">
-            <div className="text-5xl mb-3 transform group-hover:scale-110 group-hover:rotate-12 transition-all duration-300">🔒</div>
+            <div className="text-5xl mb-3 transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">🔒</div>
             <div className="text-4xl font-bold text-blue-400 mb-2">
               <AnimatedStats end={256} suffix="-bit" />
             </div>
@@ -81,7 +81,7 @@ export default function Home() {
           </div>
 
           <div className="group bg-gradient-to-br from-modrinth-dark to-gray-900 p-8 rounded-2xl border border-white/10 hover:border-purple-500/50 transition-all duration-500 hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20 backdrop-blur-sm">
-            <div className="text-5xl mb-3 transform group-hover:scale-110 group-hover:rotate-12 transition-all duration-300">🚀</div>
+            <div className="text-5xl mb-3 transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">🚀</div>
             <div className="text-4xl font-bold text-purple-400 mb-2">
               <AnimatedStats end={0} suffix=" KB" />
             </div>
@@ -203,38 +203,6 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="grid grid-cols-2 sm:flex sm:flex-row gap-2 md:gap-3 justify-center text-center">
-            <Link href="/mods" className="inline-flex items-center justify-center gap-1 text-modrinth-green hover:text-green-400 font-semibold text-xs lg:text-sm group">
-              <span>Моды</span>
-              <svg className="w-3 h-3 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </Link>
-            <Link href="/plugins" className="inline-flex items-center justify-center gap-1 text-blue-400 hover:text-blue-300 font-semibold text-xs lg:text-sm group">
-              <span>Плагины</span>
-              <svg className="w-3 h-3 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </Link>
-            <Link href="/shaders" className="inline-flex items-center justify-center gap-1 text-cyan-400 hover:text-cyan-300 font-semibold text-xs lg:text-sm group">
-              <span>Шейдеры</span>
-              <svg className="w-3 h-3 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </Link>
-            <Link href="/resourcepacks" className="inline-flex items-center justify-center gap-1 text-purple-400 hover:text-purple-300 font-semibold text-xs lg:text-sm group">
-              <span>Ресурспаки</span>
-              <svg className="w-3 h-3 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </Link>
-            <Link href="/datapacks" className="inline-flex items-center justify-center gap-1 text-orange-400 hover:text-orange-300 font-semibold text-xs lg:text-sm group">
-              <span>Датапаки</span>
-              <svg className="w-3 h-3 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </Link>
-          </div>
         </div>
 
         {/* Призыв к действию */}
@@ -278,6 +246,12 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
                 </svg>
                 <span>Датапаки</span>
+              </Link>
+              <Link href="/modpacks" className="inline-flex items-center justify-center gap-1 md:gap-1.5 bg-red-600 text-white px-3 md:px-6 py-2 md:py-2.5 rounded-xl font-bold text-xs md:text-sm lg:text-base hover:bg-red-500 transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
+                <svg className="w-3 h-3 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                </svg>
+                <span>Модпаки</span>
               </Link>
             </div>
           </div>
