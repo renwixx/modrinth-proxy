@@ -1,0 +1,132 @@
+import Link from 'next/link'
+import { getMod, getModVersions, formatDownloads, formatDate } from '@/lib/modrinth'
+import { filterModContent, isProjectBlocked } from '@/lib/contentFilter'
+import ModTabs from '../../mods/[slug]/ModTabs'
+import DownloadModal from '../../components/DownloadModal'
+
+export default async function PluginPage({ params, searchParams }) {
+  const { slug } = params;
+  
+  if (isProjectBlocked(slug)) {
+    return (
+      <div className="text-center py-16 max-w-2xl mx-auto">
+        <div className="mb-6">
+          <svg className="w-20 h-20 mx-auto text-red-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+          <h1 className="text-3xl font-bold text-red-500 mb-4">Доступ ограничен</h1>
+          <div className="bg-modrinth-dark border border-gray-800 rounded-xl p-6 mb-6 text-left">
+            <p className="text-gray-300 mb-3">
+              Данный проект недоступен в соответствии с региональными ограничениями и требованиями Роскомнадзора.
+            </p>
+            <p className="text-gray-400 text-sm">
+              К сожалению, некоторые проекты были заблокированы на территории Российской Федерации по решению регулирующих органов. Мы вынуждены ограничить доступ к этому контенту для соблюдения действующего законодательства.
+            </p>
+          </div>
+        </div>
+        <Link 
+          href="/plugins"
+          className="inline-flex items-center gap-2 bg-modrinth-green text-black px-6 py-3 rounded-lg font-semibold hover:bg-green-400 transition"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          <span>Вернуться к плагинам</span>
+        </Link>
+      </div>
+    )
+  }
+  
+  const initialTab = searchParams.tab || 'description'
+  const initialLoader = searchParams.l || 'all'
+
+  let plugin, versions;
+  try {
+    [plugin, versions] = await Promise.all([
+      getMod(slug),
+      getModVersions(slug),
+    ]);
+    
+    plugin = filterModContent(plugin);
+  } catch (error) {
+    return (
+      <div className="text-center py-16">
+        <h1 className="text-3xl font-bold text-red-500 mb-4">Плагин не найден</h1>
+        <p className="text-gray-400 mb-8">{error.message}</p>
+        <Link 
+          href="/plugins"
+          className="bg-modrinth-green text-black px-6 py-3 rounded-lg font-semibold hover:bg-green-400 transition"
+        >
+          Вернуться к плагинам
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-5xl mx-auto">
+      <div className="mb-4 md:mb-6 text-xs md:text-sm text-gray-400">
+        <Link href="/plugins" className="hover:text-modrinth-green">Плагины</Link>
+        <span className="mx-2">/</span>
+        <span className="line-clamp-1">{plugin.title}</span>
+      </div>
+
+      <div className="bg-modrinth-dark border border-gray-800 rounded-lg p-4 md:p-6 mb-6 md:mb-8">
+        <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 lg:items-start">
+          <div className="flex gap-3 md:gap-4 flex-1">
+            {plugin.icon_url && (
+              <img
+                src={plugin.icon_url}
+                alt={plugin.title}
+                className="w-16 h-16 md:w-20 md:h-20 rounded-lg object-cover flex-shrink-0"
+              />
+            )}
+            <div className="flex-1 min-w-0">
+              <h1 className="text-2xl md:text-3xl font-bold mb-2">{plugin.title}</h1>
+              <p className="text-gray-300 mb-3 text-sm md:text-base">{plugin.description}</p>
+              
+              <div className="flex flex-wrap items-center gap-3 md:gap-4 text-xs md:text-sm">
+                <div className="flex items-center gap-1.5 text-gray-400">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                  </svg>
+                  <span className="font-semibold text-white">{formatDownloads(plugin.downloads)}</span>
+                </div>
+                <div className="flex items-center gap-1.5 text-gray-400">
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                  </svg>
+                  <span className="font-semibold text-white">{formatDownloads(plugin.followers)}</span>
+                </div>
+                <div className="hidden sm:flex flex-wrap gap-1.5">
+                  {plugin.categories.slice(0, 4).map((cat) => (
+                    <span
+                      key={cat}
+                      className="px-2 py-0.5 bg-gray-800 text-gray-300 rounded text-xs"
+                    >
+                      {cat}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="w-full lg:w-auto">
+            <DownloadModal mod={plugin} versions={versions} contentType="plugins" />
+          </div>
+        </div>
+      </div>
+
+      <div data-tabs>
+        <ModTabs 
+          mod={plugin} 
+          versions={versions} 
+          initialTab={initialTab}
+          initialLoader={initialLoader}
+        />
+      </div>
+    </div>
+  )
+}
+
