@@ -124,7 +124,7 @@ export default function ModTabs({ mod, versions, initialTab = 'description', ini
               : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
           }`}
         >
-          Changelog
+          Изменения
         </button>
         <button
           onClick={() => handleTabChange('versions')}
@@ -186,7 +186,7 @@ export default function ModTabs({ mod, versions, initialTab = 'description', ini
         {activeTab === 'versions' && (
           <div>
             <div className="space-y-3 md:space-y-4 mb-6 pb-4 border-b border-gray-800">
-              {/* Поиск */}
+             
               <div className="relative">
                 <svg className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -200,9 +200,8 @@ export default function ModTabs({ mod, versions, initialTab = 'description', ini
                 />
               </div>
 
-              {/* Фильтры в ряд */}
               <div className="flex flex-wrap gap-2 md:gap-3 text-sm md:text-base">
-                {/* Dropdown для MC версий */}
+                
                 <div className="relative">
                   <select
                     value={selectedMcVersion}
@@ -219,7 +218,6 @@ export default function ModTabs({ mod, versions, initialTab = 'description', ini
                   </svg>
                 </div>
 
-                {/* Кнопка "Show all versions" */}
                 <button
                   onClick={() => setShowOnlyReleases(!showOnlyReleases)}
                   className={`px-3 py-2 rounded text-sm border transition ${
@@ -231,7 +229,6 @@ export default function ModTabs({ mod, versions, initialTab = 'description', ini
                   {showOnlyReleases ? 'Show all versions' : 'Showing all versions'}
                 </button>
 
-                {/* Channels (Release/Beta/Alpha) */}
                 <div className="flex gap-1 bg-gray-800 rounded p-1">
                   <button
                     onClick={() => setSelectedChannel('all')}
@@ -275,7 +272,6 @@ export default function ModTabs({ mod, versions, initialTab = 'description', ini
                   </button>
                 </div>
 
-                {/* Загрузчики */}
                 {loaders.length > 1 && (
                   <div className="flex gap-1 bg-gray-800 rounded p-1">
                     <button
@@ -319,7 +315,6 @@ export default function ModTabs({ mod, versions, initialTab = 'description', ini
                     key={version.id}
                     className="border border-gray-700 rounded-lg p-3 hover:border-modrinth-green transition flex items-center gap-3"
                   >
-                    {/* Иконка канала (R/B/A) */}
                     <div className={`w-8 h-8 rounded flex items-center justify-center font-bold text-sm flex-shrink-0 ${
                       version.version_type === 'release' ? 'bg-green-900 text-green-300' :
                       version.version_type === 'beta' ? 'bg-yellow-900 text-yellow-300' :
@@ -328,7 +323,6 @@ export default function ModTabs({ mod, versions, initialTab = 'description', ini
                       {version.version_type[0].toUpperCase()}
                     </div>
 
-                    {/* Инфо о версии */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-baseline gap-2 mb-0.5">
                         <h3 className="font-semibold text-sm">{version.version_number || version.name}</h3>
@@ -344,7 +338,6 @@ export default function ModTabs({ mod, versions, initialTab = 'description', ini
                       </div>
                     </div>
 
-                    {/* Дата и скачивания */}
                     <div className="text-right flex-shrink-0 mr-3">
                       <div className="text-xs text-gray-500 mb-0.5">
                         {(() => {
@@ -368,7 +361,6 @@ export default function ModTabs({ mod, versions, initialTab = 'description', ini
                       </div>
                     </div>
 
-                    {/* Кнопка скачивания */}
                     {version.files.map((file) => (
                       <a
                         key={file.hashes.sha1}

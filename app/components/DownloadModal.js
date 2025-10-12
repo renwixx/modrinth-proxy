@@ -226,7 +226,7 @@ export default function DownloadModal({ mod, versions, contentType = 'mods' }) {
                 <button
                   onClick={() => {
                     setIsOpen(false)
-                    router.push(`/${contentType}/${mod.slug}?tab=versions`)
+                    window.location.href = `/${contentType.replace(/s$/, '')}/${mod.slug}?tab=versions`
                   }}
                   className="text-sm text-modrinth-green hover:text-green-400 transition-all duration-300 inline-flex items-center gap-1 hover:gap-2 mt-3"
                 >

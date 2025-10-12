@@ -124,7 +124,7 @@ export default async function ModpacksPage({ searchParams }) {
             {data.hits.map((modpack) => (
               <Link
                 key={modpack.project_id}
-                href={`/modpacks/${modpack.slug}`}
+                href={`/modpack/${modpack.slug}`}
                 className="bg-modrinth-dark border border-gray-800 rounded-lg p-3 md:p-4 card-hover flex flex-col sm:flex-row items-start sm:items-center gap-3 md:gap-4"
               >
                 <div className="flex items-center gap-3 w-full sm:w-auto">

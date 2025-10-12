@@ -1,26 +1,26 @@
 import Link from 'next/link'
 import { getMod, getModVersions, getTeamMembers, formatDownloads, formatDate } from '@/lib/modrinth'
 import { filterModContent, isProjectBlocked, isOrganizationBlocked } from '@/lib/contentFilter'
-import ModTabs from '../../mods/[slug]/ModTabs'
+import ModTabs from '../../components/ModTabs'
 import DownloadModal from '../../components/DownloadModal'
 import ModSidebar from '../../components/ModSidebar'
 
 export async function generateMetadata({ params }) {
   try {
-    const plugin = await getMod(params.slug)
+    const mod = await getMod(params.slug)
     return {
-      title: `${plugin.title} - Скачать плагин для Minecraft | White Minecraft`,
-      description: plugin.description || `Скачать ${plugin.title} для Minecraft. ${formatDownloads(plugin.downloads)} загрузок. Поддержка версий: ${plugin.game_versions?.slice(0, 3).join(', ')}.`,
+      title: `${mod.title} - Скачать мод для Minecraft | White Minecraft`,
+      description: mod.description || `Скачать ${mod.title} для Minecraft. ${formatDownloads(mod.downloads)} загрузок. Поддержка версий: ${mod.game_versions?.slice(0, 3).join(', ')}.`,
     }
   } catch {
     return {
-      title: 'Плагин не найден | White Minecraft',
-      description: 'Запрашиваемый плагин не найден',
+      title: 'Мод не найден | White Minecraft',
+      description: 'Запрашиваемый мод не найден',
     }
   }
 }
 
-export default async function PluginPage({ params, searchParams }) {
+export default async function ModPage({ params, searchParams }) {
   const { slug } = params;
   
   if (isProjectBlocked(slug)) {
@@ -41,13 +41,13 @@ export default async function PluginPage({ params, searchParams }) {
           </div>
         </div>
         <Link 
-          href="/plugins"
+          href="/mods"
           className="inline-flex items-center gap-2 bg-modrinth-green text-black px-6 py-3 rounded-lg font-semibold hover:bg-green-400 transition"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
-          <span>Вернуться к плагинам</span>
+          <span>Вернуться к модам</span>
         </Link>
       </div>
     )
@@ -56,17 +56,17 @@ export default async function PluginPage({ params, searchParams }) {
   const initialTab = searchParams.tab || 'description'
   const initialLoader = searchParams.l || 'all'
 
-  let plugin, versions, teamMembers;
+  let mod, versions, teamMembers;
   try {
-    [plugin, versions, teamMembers] = await Promise.all([
+    [mod, versions, teamMembers] = await Promise.all([
       getMod(slug),
       getModVersions(slug),
       getTeamMembers(slug),
     ]);
     
-    plugin = filterModContent(plugin);
+    mod = filterModContent(mod);
     
-    if (isOrganizationBlocked(plugin.organization)) {
+    if (isOrganizationBlocked(mod.organization)) {
       return (
         <div className="text-center py-16 max-w-2xl mx-auto">
           <div className="mb-6">
@@ -84,13 +84,13 @@ export default async function PluginPage({ params, searchParams }) {
             </div>
           </div>
           <Link 
-            href="/plugins"
+            href="/mods"
             className="inline-flex items-center gap-2 bg-modrinth-green hover:bg-green-400 text-black px-6 py-3 rounded-lg font-bold transition-all duration-300 hover:scale-105"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
-            <span>Вернуться к плагинам</span>
+            <span>Вернуться к модам</span>
           </Link>
         </div>
       )
@@ -98,13 +98,13 @@ export default async function PluginPage({ params, searchParams }) {
   } catch (error) {
     return (
       <div className="text-center py-16">
-        <h1 className="text-3xl font-bold text-red-500 mb-4">Плагин не найден</h1>
+        <h1 className="text-3xl font-bold text-red-500 mb-4">Мод не найден</h1>
         <p className="text-gray-400 mb-8">{error.message}</p>
         <Link 
-          href="/plugins"
+          href="/mods"
           className="bg-modrinth-green text-black px-6 py-3 rounded-lg font-semibold hover:bg-green-400 transition"
         >
-          Вернуться к плагинам
+          Вернуться к модам
         </Link>
       </div>
     );
@@ -114,44 +114,44 @@ export default async function PluginPage({ params, searchParams }) {
     <div className="max-w-5xl mx-auto">
       <div className="mb-4 md:mb-6 flex items-center gap-2 text-sm flex-wrap">
         <Link 
-          href="/plugins" 
+          href="/mods" 
           className="text-gray-400 hover:text-modrinth-green transition-colors duration-200 font-medium"
         >
-          Плагины
+          Моды
         </Link>
         <span className="text-gray-600">/</span>
-        <span className="text-white font-semibold truncate">{plugin.title}</span>
+        <span className="text-white font-semibold truncate">{mod.title}</span>
       </div>
 
       <div className="border-b pb-4 md:pb-6 mb-6 md:mb-8" style={{ borderBottomColor: '#34363c' }}>
         <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 lg:items-start">
           <div className="flex gap-3 md:gap-4 flex-1">
-            {plugin.icon_url && (
+            {mod.icon_url && (
               <img
-                src={plugin.icon_url}
-                alt={plugin.title}
+                src={mod.icon_url}
+                alt={mod.title}
                 className="w-16 h-16 md:w-20 md:h-20 rounded-lg object-cover flex-shrink-0"
               />
             )}
             <div className="flex-1 min-w-0">
-              <h1 className="text-2xl md:text-3xl font-bold mb-2">{plugin.title}</h1>
-              <p className="text-gray-300 mb-3 text-sm md:text-base">{plugin.description}</p>
+              <h1 className="text-2xl md:text-3xl font-bold mb-2">{mod.title}</h1>
+              <p className="text-gray-300 mb-3 text-sm md:text-base">{mod.description}</p>
               
               <div className="flex flex-wrap items-center gap-3 md:gap-4 text-xs md:text-sm">
                 <div className="flex items-center gap-1.5 text-gray-400">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                   </svg>
-                  <span className="font-semibold text-white">{formatDownloads(plugin.downloads)}</span>
+                  <span className="font-semibold text-white">{formatDownloads(mod.downloads)}</span>
                 </div>
                 <div className="flex items-center gap-1.5 text-gray-400">
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                   </svg>
-                  <span className="font-semibold text-white">{formatDownloads(plugin.followers)}</span>
+                  <span className="font-semibold text-white">{formatDownloads(mod.followers)}</span>
                 </div>
                 <div className="hidden sm:flex flex-wrap gap-1.5">
-                  {plugin.categories.slice(0, 4).map((cat) => (
+                  {mod.categories.slice(0, 4).map((cat) => (
                     <span
                       key={cat}
                       className="px-2 py-0.5 bg-gray-800 text-gray-300 rounded text-xs"
@@ -165,7 +165,7 @@ export default async function PluginPage({ params, searchParams }) {
           </div>
 
           <div className="w-full lg:w-auto">
-            <DownloadModal mod={plugin} versions={versions} contentType="plugins" />
+            <DownloadModal mod={mod} versions={versions} contentType="mods" />
           </div>
         </div>
       </div>
@@ -173,7 +173,7 @@ export default async function PluginPage({ params, searchParams }) {
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
         <div className="min-w-0">
           <ModTabs 
-            mod={plugin} 
+            mod={mod} 
             versions={versions} 
             initialTab={initialTab}
             initialLoader={initialLoader}
@@ -181,7 +181,7 @@ export default async function PluginPage({ params, searchParams }) {
         </div>
         
         <div className="lg:sticky lg:top-4 lg:self-start">
-          <ModSidebar mod={plugin} teamMembers={teamMembers} />
+          <ModSidebar mod={mod} teamMembers={teamMembers} />
         </div>
       </div>
     </div>

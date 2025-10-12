@@ -167,12 +167,12 @@ export default function Home() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12">
             {[
-              { name: 'Sodium', icon: '⚡', desc: 'Оптимизация рендеринга', color: 'from-yellow-500 to-orange-500', slug: 'sodium', type: 'mods' },
-              { name: 'Complementary', icon: '✨', desc: 'Красивые шейдеры', color: 'from-green-500 to-emerald-500', slug: 'complementary-reimagined', type: 'shaders' },
-              { name: 'Terralith', icon: '🏔️', desc: '100 новых биомов', color: 'from-blue-500 to-purple-500', slug: 'terralith', type: 'datapacks' },
-              { name: 'LuckPerms', icon: '🔐', desc: 'Система прав', color: 'from-cyan-500 to-blue-500', slug: 'luckperms', type: 'plugins' },
-              { name: 'Fresh Animations', icon: '🎬', desc: 'Анимированные мобы', color: 'from-amber-500 to-yellow-500', slug: 'fresh-animations', type: 'resourcepacks' },
-              { name: 'BSL Shaders', icon: '🌅', desc: 'Яркие и красочные', color: 'from-pink-500 to-rose-500', slug: 'bsl-shaders', type: 'shaders' },
+              { name: 'Sodium', icon: '⚡', desc: 'Оптимизация рендеринга', color: 'from-yellow-500 to-orange-500', slug: 'sodium', type: 'mod' },
+              { name: 'Complementary', icon: '✨', desc: 'Красивые шейдеры', color: 'from-green-500 to-emerald-500', slug: 'complementary-reimagined', type: 'shader' },
+              { name: 'Terralith', icon: '🏔️', desc: '100 новых биомов', color: 'from-blue-500 to-purple-500', slug: 'terralith', type: 'datapack' },
+              { name: 'LuckPerms', icon: '🔐', desc: 'Система прав', color: 'from-cyan-500 to-blue-500', slug: 'luckperms', type: 'plugin' },
+              { name: 'Fresh Animations', icon: '🎬', desc: 'Анимированные мобы', color: 'from-amber-500 to-yellow-500', slug: 'fresh-animations', type: 'resourcepack' },
+              { name: 'BSL Shaders', icon: '🌅', desc: 'Яркие и красочные', color: 'from-pink-500 to-rose-500', slug: 'bsl-shaders', type: 'shader' },
             ].map((mod, i) => (
               <Link
                 key={mod.slug}

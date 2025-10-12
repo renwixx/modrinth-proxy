@@ -114,7 +114,7 @@ export default async function DatapacksPage({ searchParams }) {
             {data.hits.map((pack) => (
               <Link
                 key={pack.project_id}
-                href={`/datapacks/${pack.slug}`}
+                href={`/datapack/${pack.slug}`}
                 className="bg-modrinth-dark border border-gray-800 rounded-lg p-3 md:p-4 card-hover flex flex-col sm:flex-row items-start sm:items-center gap-3 md:gap-4"
               >
                 <div className="flex items-center gap-3 w-full sm:w-auto">

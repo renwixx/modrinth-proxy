@@ -129,7 +129,7 @@ export default async function ShadersPage({ searchParams }) {
             {data.hits.map((shader) => (
               <Link
                 key={shader.project_id}
-                href={`/shaders/${shader.slug}`}
+                href={`/shader/${shader.slug}`}
                 className="bg-modrinth-dark border border-gray-800 rounded-lg p-3 md:p-4 card-hover flex flex-col sm:flex-row items-start sm:items-center gap-3 md:gap-4"
               >
                 <div className="flex items-center gap-3 w-full sm:w-auto">
