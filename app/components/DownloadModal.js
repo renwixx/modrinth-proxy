@@ -210,13 +210,14 @@ export default function DownloadModal({ mod, versions, contentType = 'mods' }) {
                   <a
                     href={matchingVersion.files[0].url}
                     download
-                    className="flex items-center justify-center gap-2 bg-gradient-to-r from-modrinth-green to-green-400 text-black px-4 py-2.5 rounded-lg font-bold text-sm hover:from-green-400 hover:to-modrinth-green transition-all duration-300 w-full animate-fade-in-up hover:scale-105 hover:shadow-lg"
+                    className="group relative flex items-center justify-center gap-2 overflow-hidden bg-gradient-to-r from-modrinth-green via-green-400 to-modrinth-green bg-size-200 bg-pos-0 text-black px-6 py-3.5 rounded-xl font-bold text-base hover:bg-pos-100 transition-all duration-500 w-full animate-fade-in-up hover:scale-[1.03] hover:shadow-2xl hover:shadow-green-500/50 active:scale-95"
                     style={{ animationDelay: '200ms' }}
                   >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+                    <svg className="w-5 h-5 animate-bounce group-hover:animate-none transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                     </svg>
-                    <span>Скачать</span>
+                    <span className="relative z-10">Скачать {(matchingVersion.files[0].size / 1024).toFixed(0)} KB</span>
                   </a>
                 </div>
               )}

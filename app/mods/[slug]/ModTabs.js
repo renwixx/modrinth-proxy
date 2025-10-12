@@ -14,14 +14,12 @@ export default function ModTabs({ mod, versions, initialTab = 'description', ini
   const pathname = usePathname()
   const searchParams = useSearchParams()
   
-  // Фильтры для версий
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedMcVersion, setSelectedMcVersion] = useState('all')
   const [selectedLoader, setSelectedLoader] = useState(initialLoader)
   const [selectedChannel, setSelectedChannel] = useState('all')
   const [showOnlyReleases, setShowOnlyReleases] = useState(true)
 
-  // Функция для обновления URL
   const updateUrl = (tab, loader = selectedLoader) => {
     const params = new URLSearchParams()
     if (tab !== 'description') params.set('tab', tab)
@@ -33,13 +31,11 @@ export default function ModTabs({ mod, versions, initialTab = 'description', ini
     router.push(newUrl, { scroll: false })
   }
 
-  // Обработчик смены таба
   const handleTabChange = (tab) => {
     setActiveTab(tab)
     updateUrl(tab)
   }
 
-  // Обработчик смены загрузчика
   const handleLoaderChange = (loader) => {
     setSelectedLoader(loader)
     if (activeTab === 'versions') {
@@ -47,15 +43,13 @@ export default function ModTabs({ mod, versions, initialTab = 'description', ini
     }
   }
 
-  // Получаем уникальные версии Minecraft и загрузчики из ВЕРСИЙ, не из мода
   const mcVersions = useMemo(() => {
     const versionsSet = new Set()
     versions.forEach(v => {
       v.game_versions.forEach(gv => versionsSet.add(gv))
     })
-    // Сортируем версии
     const sorted = Array.from(versionsSet).sort((a, b) => {
-      // Версии с цифрами впереди
+    
       const aNum = parseFloat(a.match(/[\d.]+/)?.[0] || '0')
       const bNum = parseFloat(b.match(/[\d.]+/)?.[0] || '0')
       return bNum - aNum
@@ -71,18 +65,16 @@ export default function ModTabs({ mod, versions, initialTab = 'description', ini
     return Array.from(loadersSet)
   }, [versions])
 
-  // Релизные версии Minecraft (без snapshots, pre, rc)
   const releaseVersions = useMemo(() => {
     return mcVersions.filter(v => {
-      // Релиз если формат типа 1.21.1, 1.20, 1.19.4 и т.д.
+      
       return /^\d+\.\d+(\.\d+)?$/.test(v)
     })
   }, [mcVersions])
 
-  // Фильтрация версий
   const filteredVersions = useMemo(() => {
     return versions.filter(version => {
-      // Поиск
+     
       if (searchQuery) {
         const query = searchQuery.toLowerCase()
         const matchName = version.name.toLowerCase().includes(query)
@@ -90,23 +82,19 @@ export default function ModTabs({ mod, versions, initialTab = 'description', ini
         if (!matchName && !matchVersion) return false
       }
 
-      // Фильтр по MC версии
       if (selectedMcVersion !== 'all') {
         if (!version.game_versions.includes(selectedMcVersion)) return false
       }
 
-      // Фильтр "только релизы MC"
       if (showOnlyReleases && selectedMcVersion === 'all') {
         const hasReleaseVersion = version.game_versions.some(v => releaseVersions.includes(v))
         if (!hasReleaseVersion) return false
       }
 
-      // Фильтр по загрузчику
       if (selectedLoader !== 'all') {
         if (!version.loaders.includes(selectedLoader)) return false
       }
 
-      // Фильтр по каналу (Release/Beta/Alpha)
       if (selectedChannel !== 'all') {
         if (version.version_type !== selectedChannel) return false
       }
