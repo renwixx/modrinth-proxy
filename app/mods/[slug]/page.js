@@ -1,10 +1,24 @@
 import Link from 'next/link'
-import { getMod, getModVersions, formatDownloads, formatDate } from '@/lib/modrinth'
+import { getMod, getModVersions, getTeamMembers, formatDownloads, formatDate } from '@/lib/modrinth'
 import { filterModContent, isProjectBlocked, isOrganizationBlocked } from '@/lib/contentFilter'
 import ModTabs from './ModTabs'
 import DownloadModal from '../../components/DownloadModal'
+import ModSidebar from '../../components/ModSidebar'
 
-export const runtime = 'edge'
+export async function generateMetadata({ params }) {
+  try {
+    const mod = await getMod(params.slug)
+    return {
+      title: `${mod.title} - Скачать мод для Minecraft | White Minecraft`,
+      description: mod.description || `Скачать ${mod.title} для Minecraft. ${formatDownloads(mod.downloads)} загрузок. Поддержка версий: ${mod.game_versions?.slice(0, 3).join(', ')}.`,
+    }
+  } catch {
+    return {
+      title: 'Мод не найден | White Minecraft',
+      description: 'Запрашиваемый мод не найден',
+    }
+  }
+}
 
 export default async function ModPage({ params, searchParams }) {
   const { slug } = params;
@@ -42,11 +56,12 @@ export default async function ModPage({ params, searchParams }) {
   const initialTab = searchParams.tab || 'description'
   const initialLoader = searchParams.l || 'all'
 
-  let mod, versions;
+  let mod, versions, teamMembers;
   try {
-    [mod, versions] = await Promise.all([
+    [mod, versions, teamMembers] = await Promise.all([
       getMod(slug),
       getModVersions(slug),
+      getTeamMembers(slug),
     ]);
     
     mod = filterModContent(mod);
@@ -97,13 +112,18 @@ export default async function ModPage({ params, searchParams }) {
 
   return (
     <div className="max-w-5xl mx-auto">
-      <div className="mb-4 md:mb-6 text-xs md:text-sm text-gray-400">
-        <Link href="/mods" className="hover:text-modrinth-green">Моды</Link>
-        <span className="mx-2">/</span>
-        <span className="line-clamp-1">{mod.title}</span>
+      <div className="mb-4 md:mb-6 flex items-center gap-2 text-sm flex-wrap">
+        <Link 
+          href="/mods" 
+          className="text-gray-400 hover:text-modrinth-green transition-colors duration-200 font-medium"
+        >
+          Моды
+        </Link>
+        <span className="text-gray-600">/</span>
+        <span className="text-white font-semibold truncate">{mod.title}</span>
       </div>
 
-      <div className="bg-modrinth-dark border border-gray-800 rounded-lg p-4 md:p-6 mb-6 md:mb-8">
+      <div className="border-b pb-4 md:pb-6 mb-6 md:mb-8" style={{ borderBottomColor: '#34363c' }}>
         <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 lg:items-start">
           <div className="flex gap-3 md:gap-4 flex-1">
             {mod.icon_url && (
@@ -150,13 +170,19 @@ export default async function ModPage({ params, searchParams }) {
         </div>
       </div>
 
-      <div data-tabs>
-        <ModTabs 
-          mod={mod} 
-          versions={versions} 
-          initialTab={initialTab}
-          initialLoader={initialLoader}
-        />
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
+        <div className="min-w-0">
+          <ModTabs 
+            mod={mod} 
+            versions={versions} 
+            initialTab={initialTab}
+            initialLoader={initialLoader}
+          />
+        </div>
+        
+        <div className="lg:sticky lg:top-4 lg:self-start">
+          <ModSidebar mod={mod} teamMembers={teamMembers} />
+        </div>
       </div>
     </div>
   )

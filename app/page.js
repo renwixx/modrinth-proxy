@@ -2,6 +2,11 @@ import Link from 'next/link'
 import AnimatedBackground from './components/AnimatedBackground'
 import AnimatedStats from './components/AnimatedStats'
 
+export const metadata = {
+  title: 'White Minecraft - Моды, плагины, шейдеры для Minecraft на русском',
+  description: 'Скачать моды, плагины, шейдеры, ресурспаки и датапаки для Minecraft. Удобный каталог на русском языке. Тысячи модификаций для любой версии.',
+}
+
 export default function Home() {
   return (
     <div className="relative min-h-screen overflow-hidden">

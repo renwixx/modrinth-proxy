@@ -4,7 +4,10 @@ import { filterModsList } from '@/lib/contentFilter'
 import SidebarFilters from './SidebarFilters'
 import MobileMenu from './MobileMenu'
 
-export const runtime = 'edge'
+export const metadata = {
+  title: 'Моды для Minecraft - Скачать бесплатно | White Minecraft',
+  description: 'Скачать моды для Minecraft на русском языке. Fabric, Forge, NeoForge, Quilt. Тысячи модификаций для любой версии Minecraft.',
+}
 
 export default async function ModsPage({ searchParams }) {
   const query = searchParams.q || '';

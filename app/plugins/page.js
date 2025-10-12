@@ -4,7 +4,10 @@ import { filterModsList } from '@/lib/contentFilter'
 import PluginSidebarFilters from './PluginSidebarFilters'
 import MobileMenu from './MobileMenu'
 
-export const runtime = 'edge'
+export const metadata = {
+  title: 'Плагины для Minecraft - Скачать бесплатно | White Minecraft',
+  description: 'Скачать плагины для Minecraft серверов. Bukkit, Spigot, Paper, Purpur, Folia. Тысячи плагинов для любой версии Minecraft.',
+}
 
 export default async function PluginsPage({ searchParams }) {
   const query = searchParams.q || '';

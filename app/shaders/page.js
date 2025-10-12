@@ -4,7 +4,10 @@ import { filterModsList } from '@/lib/contentFilter'
 import ShaderSidebarFilters from './ShaderSidebarFilters'
 import MobileMenu from './MobileMenu'
 
-export const runtime = 'edge'
+export const metadata = {
+  title: 'Шейдеры для Minecraft - Скачать бесплатно | White Minecraft',
+  description: 'Скачать шейдеры для Minecraft. Iris, OptiFine, Canvas. Реалистичная графика, тени, отражения для любой версии Minecraft.',
+}
 
 export default async function ShadersPage({ searchParams }) {
   const query = searchParams.q || '';

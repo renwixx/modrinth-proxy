@@ -195,7 +195,7 @@ export default function ShaderSidebarFilters({ onFilterChange, isMobile = false 
             </svg>
             Категории
           </h3>
-          <div className="space-y-1.5">
+          <div className="max-h-64 overflow-y-auto custom-scrollbar space-y-1.5 pr-2">
             {CATEGORIES.map(cat => (
               <button
                 key={cat.id}
@@ -219,7 +219,7 @@ export default function ShaderSidebarFilters({ onFilterChange, isMobile = false 
             </svg>
             Особенности
           </h3>
-          <div className="space-y-1.5">
+          <div className="max-h-64 overflow-y-auto custom-scrollbar space-y-1.5 pr-2">
             {FEATURES.map(feature => (
               <button
                 key={feature.id}

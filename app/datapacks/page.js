@@ -4,7 +4,10 @@ import { filterModsList } from '@/lib/contentFilter'
 import DatapackSidebarFilters from './DatapackSidebarFilters'
 import MobileMenu from './MobileMenu'
 
-export const runtime = 'edge'
+export const metadata = {
+  title: 'Датапаки для Minecraft - Скачать бесплатно | White Minecraft',
+  description: 'Скачать датапаки для Minecraft. Новые механики, миры, приключения. Тысячи датапаков для любой версии Minecraft.',
+}
 
 export default async function DatapacksPage({ searchParams }) {
   const query = searchParams.q || '';

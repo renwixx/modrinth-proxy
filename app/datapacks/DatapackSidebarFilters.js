@@ -59,8 +59,6 @@ export default function DatapackSidebarFilters({ onFilterChange, isMobile = fals
     searchParams.get('c')?.split(',').filter(Boolean) || []
   )
 
-  const [showMoreCategories, setShowMoreCategories] = useState(false)
-
   const updateFilters = (updates) => {
     const params = new URLSearchParams(searchParams)
     
@@ -136,8 +134,8 @@ export default function DatapackSidebarFilters({ onFilterChange, isMobile = fals
             </svg>
             Категории
           </h3>
-          <div className="space-y-1.5">
-            {CATEGORIES.slice(0, showMoreCategories ? CATEGORIES.length : 8).map(cat => (
+          <div className="max-h-64 overflow-y-auto custom-scrollbar space-y-1.5 pr-2">
+            {CATEGORIES.map(cat => (
               <button
                 key={cat.id}
                 onClick={() => toggleCategory(cat.id)}
@@ -150,12 +148,6 @@ export default function DatapackSidebarFilters({ onFilterChange, isMobile = fals
                 {cat.name}
               </button>
             ))}
-            <button
-              onClick={() => setShowMoreCategories(!showMoreCategories)}
-              className="w-full text-center py-2 text-sm text-modrinth-green hover:text-green-400 font-semibold transition-colors"
-            >
-              {showMoreCategories ? 'Скрыть' : 'Показать ещё'}
-            </button>
           </div>
         </div>
 

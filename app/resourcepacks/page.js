@@ -4,7 +4,10 @@ import { filterModsList } from '@/lib/contentFilter'
 import ResourcepackSidebarFilters from './ResourcepackSidebarFilters'
 import MobileMenu from './MobileMenu'
 
-export const runtime = 'edge'
+export const metadata = {
+  title: 'Ресурспаки для Minecraft - Скачать бесплатно | White Minecraft',
+  description: 'Скачать ресурспаки для Minecraft. Текстуры, модели, звуки. Реалистичные, мультяшные, HD. Тысячи ресурспаков для любой версии.',
+}
 
 export default async function ResourcepacksPage({ searchParams }) {
   const query = searchParams.q || '';
