@@ -5,7 +5,7 @@ async function getCommits() {
     const res = await fetch(
       'https://api.github.com/repos/b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0/modrinth-proxy/commits',
       {
-        next: { revalidate: 3600 },
+        next: { revalidate: 300 },
         headers: {
           'Accept': 'application/vnd.github.v3+json',
         }
@@ -24,26 +24,50 @@ async function getCommits() {
   }
 }
 
+function getPluralForm(number, one, few, many) {
+  const absNumber = Math.abs(number)
+  const lastDigit = absNumber % 10
+  const lastTwoDigits = absNumber % 100
+  
+  if (lastTwoDigits >= 11 && lastTwoDigits <= 19) {
+    return many
+  }
+  if (lastDigit === 1) {
+    return one
+  }
+  if (lastDigit >= 2 && lastDigit <= 4) {
+    return few
+  }
+  return many
+}
+
 function formatDate(dateString) {
   const date = new Date(dateString)
   const now = new Date()
   const diffMs = now - date
+  
+  if (diffMs < 0) {
+    return 'только что'
+  }
+  
   const diffMins = Math.floor(diffMs / 60000)
   const diffHours = Math.floor(diffMs / 3600000)
   const diffDays = Math.floor(diffMs / 86400000)
+  const diffMonths = Math.floor(diffDays / 30)
+  const diffYears = Math.floor(diffDays / 365)
   
-  if (diffMins < 60) {
-    return `${diffMins} минут назад`
+  if (diffMins < 1) {
+    return 'только что'
+  } else if (diffMins < 60) {
+    return `${diffMins} ${getPluralForm(diffMins, 'минуту', 'минуты', 'минут')} назад`
   } else if (diffHours < 24) {
-    return `${diffHours} ${diffHours === 1 ? 'час' : diffHours < 5 ? 'часа' : 'часов'} назад`
-  } else if (diffDays < 7) {
-    return `${diffDays} ${diffDays === 1 ? 'день' : diffDays < 5 ? 'дня' : 'дней'} назад`
+    return `${diffHours} ${getPluralForm(diffHours, 'час', 'часа', 'часов')} назад`
+  } else if (diffDays < 31) {
+    return `${diffDays} ${getPluralForm(diffDays, 'день', 'дня', 'дней')} назад`
+  } else if (diffMonths < 12) {
+    return `${diffMonths} ${getPluralForm(diffMonths, 'месяц', 'месяца', 'месяцев')} назад`
   } else {
-    return date.toLocaleDateString('ru-RU', { 
-      day: 'numeric', 
-      month: 'long', 
-      year: 'numeric' 
-    })
+    return `${diffYears} ${getPluralForm(diffYears, 'год', 'года', 'лет')} назад`
   }
 }
 
@@ -132,7 +156,7 @@ export default async function NewsPage() {
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-                1ч
+                5мин
               </div>
               <div className="text-sm text-gray-500">Кеш</div>
             </div>
@@ -178,16 +202,24 @@ export default async function NewsPage() {
                           )}
                         </div>
                         
-                        <span className={`flex-shrink-0 px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r ${type.color} bg-clip-text text-transparent border border-current/30`}>
+                        <span className={`flex-shrink-0 px-4 py-1.5 rounded-full text-xs font-bold bg-gradient-to-r ${type.color} text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300`}>
                           {type.label}
                         </span>
                       </div>
 
                       <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
                         <div className="flex items-center gap-2">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                          </svg>
+                          {commit.author?.avatar_url ? (
+                            <img 
+                              src={commit.author.avatar_url} 
+                              alt={commit.commit.author.name}
+                              className="w-6 h-6 rounded-full ring-1 ring-white/10 hover:ring-white/30 transition-all duration-300 hover:scale-110 shadow-md"
+                            />
+                          ) : (
+                            <div className="w-6 h-6 rounded-full bg-gradient-to-br from-modrinth-green to-emerald-500 flex items-center justify-center text-white text-xs font-bold shadow-md">
+                              {commit.commit.author.name.charAt(0).toUpperCase()}
+                            </div>
+                          )}
                           <span>{commit.commit.author.name}</span>
                         </div>
 
@@ -198,23 +230,21 @@ export default async function NewsPage() {
                           <span>{formatDate(commit.commit.author.date)}</span>
                         </div>
 
-                        <div className="flex items-center gap-2">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                          </svg>
-                          <code className="font-mono text-modrinth-green">{getShortSha(commit.sha)}</code>
-                        </div>
-
                         <a
                           href={commit.html_url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="ml-auto flex items-center gap-2 text-modrinth-green hover:text-green-400 transition-colors duration-300 font-semibold"
+                          className="group/commit relative flex items-center gap-2 text-modrinth-green hover:text-green-400 transition-all duration-300 hover:scale-105"
                         >
-                          <span>Подробнее</span>
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          <svg className="w-4 h-4 group-hover/commit:rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
                           </svg>
+                          <code className="font-mono font-semibold">{getShortSha(commit.sha)}</code>
+                          
+                          <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-4 py-2 bg-gradient-to-r from-modrinth-green to-emerald-500 text-black text-xs font-semibold rounded-lg shadow-xl opacity-0 group-hover/commit:opacity-100 pointer-events-none transition-all duration-300 whitespace-nowrap transform group-hover/commit:-translate-y-1">
+                            Перейти к коммиту на GitHub
+                            <span className="absolute top-full left-1/2 -translate-x-1/2 -mt-px border-4 border-transparent border-t-emerald-500"></span>
+                          </span>
                         </a>
                       </div>
                     </div>
