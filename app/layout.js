@@ -15,9 +15,11 @@ export default function RootLayout({ children }) {
           <div className="container mx-auto px-4 py-3 md:py-4">
             <div className="flex items-center gap-4 md:gap-6">
               <Link href="/" className="flex items-center gap-2 md:gap-3 group flex-shrink-0">
-                <div className="w-8 h-8 md:w-9 md:h-9 bg-gradient-to-br from-modrinth-green to-green-400 rounded-xl flex items-center justify-center font-bold text-base md:text-lg shadow-lg group-hover:shadow-modrinth-green/50 transition-all duration-300 group-hover:scale-110 group-hover:rotate-12">
-                  W
-                </div>
+                <img 
+                  src="/icon.png" 
+                  alt="Logo" 
+                  className="w-8 h-8 md:w-9 md:h-9 object-contain drop-shadow-[0_0_8px_rgba(26,230,109,0.5)] transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 group-hover:drop-shadow-[0_0_12px_rgba(26,230,109,0.7)]"
+                />
                 <span className="text-lg md:text-xl font-bold bg-gradient-to-r from-modrinth-green to-green-400 bg-clip-text text-transparent hidden sm:block group-hover:from-green-400 group-hover:to-modrinth-green transition-all">White Minecraft</span>
               </Link>
               

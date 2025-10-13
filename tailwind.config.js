@@ -13,6 +13,15 @@ module.exports = {
           dark: '#0f172a',
           darker: '#0a0f1e',
         }
+      },
+      keyframes: {
+        shimmer: {
+          '0%': { transform: 'translateX(-100%) translateY(-100%) rotate(45deg)' },
+          '100%': { transform: 'translateX(100%) translateY(100%) rotate(45deg)' },
+        }
+      },
+      animation: {
+        shimmer: 'shimmer 3s ease-in-out infinite',
       }
     },
   },
