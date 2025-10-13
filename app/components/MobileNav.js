@@ -14,6 +14,8 @@ export default function MobileNav({ onFilterClick }) {
     if (path === '/shaders') return pathname.startsWith('/shaders')
     if (path === '/resourcepacks') return pathname.startsWith('/resourcepacks')
     if (path === '/datapacks') return pathname.startsWith('/datapacks')
+    if (path === '/modpacks') return pathname.startsWith('/modpacks')
+    if (path === '/news') return pathname.startsWith('/news')
     return false
   }
 
@@ -24,6 +26,7 @@ export default function MobileNav({ onFilterClick }) {
     { href: '/resourcepacks', label: 'Ресурспаки', emoji: '🎨', color: 'from-orange-500 to-amber-500' },
     { href: '/datapacks', label: 'Датапаки', emoji: '🏔️', color: 'from-indigo-500 to-blue-500' },
     { href: '/modpacks', label: 'Модпаки', emoji: '📦', color: 'from-red-500 to-rose-500' },
+    { href: '/news', label: 'Новости', emoji: '📰', color: 'from-yellow-500 to-amber-500' },
   ]
 
   const showFilterButton = pathname.startsWith('/mods') || 
