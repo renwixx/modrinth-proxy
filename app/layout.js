@@ -1,6 +1,7 @@
 import './globals.css'
 import Link from 'next/link'
 import MobileNav from './components/MobileNav'
+import NewsCounter from './components/NewsCounter'
 
 export const metadata = {
   title: 'White Minecraft - Моды для Minecraft',
@@ -75,9 +76,12 @@ export default function RootLayout({ children }) {
                 <div className="flex-1"></div>
                 
                 <Link href="/news" className="group relative px-2.5 md:px-4 py-2 rounded-lg transition-all duration-300 hover:bg-yellow-500/10 whitespace-nowrap">
-                  <span className="text-xs md:text-sm font-semibold text-gray-300 group-hover:text-yellow-400 transition-colors flex items-center gap-1">
+                  <span className="text-xs md:text-sm font-semibold text-gray-300 group-hover:text-yellow-400 transition-colors flex items-center gap-1.5 relative">
                     <span className="hidden sm:inline">📰</span>
-                    <span>Новости</span>
+                    <span className="relative">
+                      Новости
+                      <NewsCounter />
+                    </span>
                   </span>
                   <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-yellow-400 to-yellow-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-full"></div>
                 </Link>

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import MarkCommitsRead from '../components/MarkCommitsRead'
 
 async function getCommits() {
   try {
@@ -133,6 +134,7 @@ export default async function NewsPage() {
 
   return (
     <div className="min-h-screen bg-modrinth-darker py-12 px-4">
+      {commits.length > 0 && <MarkCommitsRead latestSha={commits[0].sha} />}
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
           <div className="inline-block mb-4">
