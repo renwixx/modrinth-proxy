@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 import { getMod, getModVersions, getTeamMembers, formatDownloads, formatDate } from '@/lib/modrinth'
 import { filterModContent, isProjectBlocked, isOrganizationBlocked } from '@/lib/contentFilter'
 import ModTabs from '../../components/ModTabs'
@@ -94,15 +95,7 @@ export default async function ModpackPage({ params, searchParams }) {
 
     modpack = filterModContent(modpack);
   } catch (error) {
-    return (
-      <div className="text-center py-16">
-        <h1 className="text-2xl font-bold mb-4">Модпак не найден</h1>
-        <p className="text-gray-400 mb-6">{error.message}</p>
-        <Link href="/modpacks" className="text-modrinth-green hover:underline">
-          Вернуться к модпакам
-        </Link>
-      </div>
-    );
+    notFound()
   }
 
   const initialTab = searchParams.tab || 'description';

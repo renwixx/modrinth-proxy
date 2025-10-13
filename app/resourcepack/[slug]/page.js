@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 import { getMod, getModVersions, getTeamMembers, formatDownloads, formatDate } from '@/lib/modrinth'
 import { filterModContent, isProjectBlocked, isOrganizationBlocked } from '@/lib/contentFilter'
 import ModTabs from '../../components/ModTabs'
@@ -96,18 +97,7 @@ export default async function ResourcepackPage({ params, searchParams }) {
       )
     }
   } catch (error) {
-    return (
-      <div className="text-center py-16">
-        <h1 className="text-3xl font-bold text-red-500 mb-4">Ресурспак не найден</h1>
-        <p className="text-gray-400 mb-8">{error.message}</p>
-        <Link 
-          href="/resourcepacks"
-          className="bg-modrinth-green text-black px-6 py-3 rounded-lg font-semibold hover:bg-green-400 transition"
-        >
-          Вернуться к ресурспакам
-        </Link>
-      </div>
-    );
+    notFound()
   }
 
   return (
