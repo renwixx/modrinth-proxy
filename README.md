@@ -2,6 +2,17 @@
 
 Прокси-сервис для доступа к Modrinth API с территории России. Все файлы загружаются напрямую с официального Modrinth CDN.
 
+**Основной сайт:** [https://modrinth.white-minecraft.net/](https://modrinth.white-minecraft.net/)
+
+## Быстрые ссылки
+
+- **[Моды](https://modrinth.white-minecraft.net/mods)** - модификации для Minecraft
+- **[Плагины](https://modrinth.white-minecraft.net/plugins)** - плагины для серверов
+- **[Модпаки](https://modrinth.white-minecraft.net/modpacks)** - готовые сборки модов
+- **[Шейдеры](https://modrinth.white-minecraft.net/shaders)** - графические улучшения
+- **[Ресурспаки](https://modrinth.white-minecraft.net/resourcepacks)** - текстуры и звуки
+- **[Датапаки](https://modrinth.white-minecraft.net/datapacks)** - игровая механика
+
 ## О проекте
 
 White Minecraft - это прокси-сайт, который позволяет российским пользователям получить доступ к контенту Modrinth, обходя региональные ограничения. Мы не храним файлы у себя - все запросы идут напрямую к API Modrinth, а файлы скачиваются с официального CDN.
