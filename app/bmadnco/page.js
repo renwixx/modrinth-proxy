@@ -1,3 +1,5 @@
+import { BLACKLIST_PROJECTS, BLACKLIST_ORGANIZATIONS, BLACKLIST_PATTERNS } from '@/lib/contentFilter'
+
 export const metadata = {
   title: 'О проекте - White Minecraft',
   description: 'Как работает наш сервис и технические детали',
@@ -123,7 +125,7 @@ export default function AboutPage() {
                   <div className="bg-gradient-to-br from-red-900/40 to-red-800/20 rounded-xl p-6 border border-red-600/30 hover:border-red-500/60 transition-all duration-500 hover:scale-105 hover:shadow-xl hover:shadow-red-500/20">
                     <div className="text-center">
                       <div className="text-5xl font-bold text-red-400 mb-2 animate-pulse-slow">
-                        243
+                        {BLACKLIST_PROJECTS.length}
                       </div>
                       <div className="text-sm text-gray-400 mb-1">Заблокированных</div>
                       <div className="text-lg font-semibold text-white">Проектов</div>
@@ -136,7 +138,7 @@ export default function AboutPage() {
                   <div className="bg-gradient-to-br from-orange-900/40 to-orange-800/20 rounded-xl p-6 border border-orange-600/30 hover:border-orange-500/60 transition-all duration-500 hover:scale-105 hover:shadow-xl hover:shadow-orange-500/20">
                     <div className="text-center">
                       <div className="text-5xl font-bold text-orange-400 mb-2 animate-pulse-slow" style={{ animationDelay: '0.2s' }}>
-                        1
+                        {BLACKLIST_ORGANIZATIONS.length}
                       </div>
                       <div className="text-sm text-gray-400 mb-1">Заблокированных</div>
                       <div className="text-lg font-semibold text-white">Организаций</div>
@@ -149,7 +151,7 @@ export default function AboutPage() {
                   <div className="bg-gradient-to-br from-yellow-900/40 to-yellow-800/20 rounded-xl p-6 border border-yellow-600/30 hover:border-yellow-500/60 transition-all duration-500 hover:scale-105 hover:shadow-xl hover:shadow-yellow-500/20">
                     <div className="text-center">
                       <div className="text-5xl font-bold text-yellow-400 mb-2 animate-pulse-slow" style={{ animationDelay: '0.4s' }}>
-                        2
+                        {BLACKLIST_PATTERNS.length}
                       </div>
                       <div className="text-sm text-gray-400 mb-1">Заблокированных</div>
                       <div className="text-lg font-semibold text-white">Медиафайлов</div>
