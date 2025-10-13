@@ -182,15 +182,15 @@ export default async function NewsPage() {
                     <div className="absolute -inset-[100%] bg-gradient-to-tr from-transparent via-white/30 to-transparent animate-shimmer"></div>
                   </div>
 
-                  <div className="relative flex gap-4 md:gap-6">
-                    <div className="flex-shrink-0">
+                  <div className="relative flex flex-col md:flex-row gap-4 md:gap-6">
+                    <div className="hidden md:block flex-shrink-0">
                       <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${type.bg} border border-white/20 flex items-center justify-center text-3xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
                         {type.icon}
                       </div>
                     </div>
 
                     <div className="flex-1 min-w-0">
-                      <div className="flex flex-wrap items-start justify-between gap-3 mb-3">
+                      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-3">
                         <div className="flex-1 min-w-0">
                           <h2 className="text-xl font-bold text-white mb-2 group-hover:text-modrinth-green transition-colors duration-300">
                             {firstLine}
@@ -202,7 +202,7 @@ export default async function NewsPage() {
                           )}
                         </div>
                         
-                        <span className={`flex-shrink-0 px-4 py-1.5 rounded-full text-xs font-bold bg-gradient-to-r ${type.color} text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300`}>
+                        <span className={`self-start px-4 py-1.5 rounded-full text-xs font-bold bg-gradient-to-r ${type.color} text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300`}>
                           {type.label}
                         </span>
                       </div>
@@ -220,7 +220,20 @@ export default async function NewsPage() {
                               {commit.commit.author.name.charAt(0).toUpperCase()}
                             </div>
                           )}
-                          <span>{commit.commit.author.name}</span>
+                          <span className="group/author relative">
+                            <span className="hidden md:inline">{commit.commit.author.name}</span>
+                            <span className="md:hidden">
+                              {commit.commit.author.name.length > 20 
+                                ? `${commit.commit.author.name.slice(0, 10)}...${commit.commit.author.name.slice(-4)}`
+                                : commit.commit.author.name
+                              }
+                            </span>
+                            {commit.commit.author.name.length > 20 && (
+                              <span className="md:hidden absolute bottom-full left-0 mb-2 px-3 py-1.5 bg-gray-900 text-white text-xs rounded-lg shadow-xl opacity-0 group-hover/author:opacity-100 pointer-events-none transition-all duration-300 whitespace-nowrap z-10">
+                                {commit.commit.author.name}
+                              </span>
+                            )}
+                          </span>
                         </div>
 
                         <div className="flex items-center gap-2">
