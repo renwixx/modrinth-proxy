@@ -2,10 +2,10 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getMod, getModVersions, getTeamMembers, formatDownloads, formatDate } from '@/lib/modrinth'
 import { filterModContent, isProjectBlocked, isOrganizationBlocked } from '@/lib/contentFilter'
-import DownloadModal from '../../../components/DownloadModal'
-import ModSidebar from '../../../components/ModSidebar'
-import ContentNavigation from '../../../components/ContentNavigation'
-import VersionsList from '../../../components/VersionsList'
+import DownloadModal from '@/app/components/DownloadModal'
+import ModSidebar from '@/app/components/ModSidebar'
+import ContentNavigation from '@/app/components/ContentNavigation'
+import VersionsList from '@/app/components/VersionsList'
 
 export async function generateMetadata({ params }) {
   try {
