@@ -259,3 +259,4 @@ export default function ModpackSidebarFilters({ isMobile = false, onFilterChange
     </div>
   )
 }
+

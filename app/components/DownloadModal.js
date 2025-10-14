@@ -89,6 +89,7 @@ export default function DownloadModal({ mod, versions, contentType = 'mods' }) {
     <>
       <button
         onClick={() => setIsOpen(true)}
+        data-download-modal
         className="bg-gradient-to-r from-modrinth-green to-green-400 text-black px-6 md:px-8 py-3 md:py-4 rounded-xl font-bold text-base md:text-lg hover:from-green-400 hover:to-modrinth-green transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105 flex items-center justify-center gap-2 md:gap-3 w-full lg:w-auto"
       >
         <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -131,67 +132,113 @@ export default function DownloadModal({ mod, versions, contentType = 'mods' }) {
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="text-sm font-semibold text-gray-300">Выберите версию игры</h3>
-                  <button
-                    onClick={() => setShowAllVersions(!showAllVersions)}
-                    className="text-xs text-modrinth-green hover:text-green-400 transition-colors"
-                  >
-                    {showAllVersions ? 'Только релизы' : 'Показать все'}
-                  </button>
-                </div>
-                <div className="relative mb-2">
-                  <svg className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                  <input
-                    type="text"
-                    placeholder="Поиск версий игры..."
-                    value={versionSearch}
-                    onChange={(e) => setVersionSearch(e.target.value)}
-                    className="w-full bg-gray-800/50 text-white pl-10 pr-4 py-2 rounded-lg text-sm focus:bg-gray-800 focus:outline-none transition-colors"
-                  />
-                </div>
-                <div className="space-y-1 max-h-48 overflow-y-auto custom-scrollbar bg-gray-800/30 rounded-lg p-2">
-                  {filteredMcVersions.map(version => (
+                  
+                  {selectedMcVersion ? (
                     <button
-                      key={version}
                       onClick={() => {
-                        setSelectedMcVersion(version)
+                        setSelectedMcVersion('')
                         setSelectedLoader('')
                       }}
-                      className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-all ${
-                        selectedMcVersion === version
-                          ? 'bg-modrinth-green text-black'
-                          : 'text-gray-300 hover:bg-gray-700/50'
-                      }`}
+                      className="p-1 hover:bg-red-500/20 rounded transition-colors text-red-500"
+                      title="Отменить"
                     >
-                      {version}
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
                     </button>
-                  ))}
+                  ) : (
+                    <button
+                      onClick={() => setShowAllVersions(!showAllVersions)}
+                      className="text-xs text-modrinth-green hover:text-green-400 transition-colors"
+                    >
+                      {showAllVersions ? 'Только релизы' : 'Показать все'}
+                    </button>
+                  )}
                 </div>
+                
+                {selectedMcVersion ? (
+                  <div className="mb-2 px-3 py-2 bg-modrinth-green/20 border border-modrinth-green/50 rounded-lg text-sm text-modrinth-green font-medium">
+                    {selectedMcVersion}
+                  </div>
+                ) : (
+                  <>
+                    <div className="relative mb-2">
+                      <svg className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      </svg>
+                      <input
+                        type="text"
+                        placeholder="Поиск версий игры..."
+                        value={versionSearch}
+                        onChange={(e) => setVersionSearch(e.target.value)}
+                        className="w-full bg-gray-800/50 text-white pl-10 pr-4 py-2 rounded-lg text-sm focus:bg-gray-800 focus:outline-none transition-colors"
+                      />
+                    </div>
+                    <div className="space-y-1 max-h-48 overflow-y-auto custom-scrollbar bg-gray-800/30 rounded-lg p-2">
+                      {filteredMcVersions.map(version => (
+                        <button
+                          key={version}
+                          onClick={() => {
+                            setSelectedMcVersion(version)
+                            setSelectedLoader('')
+                          }}
+                          className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                            selectedMcVersion === version
+                              ? 'bg-modrinth-green text-black'
+                              : 'text-gray-300 hover:bg-gray-700/50'
+                          }`}
+                        >
+                          {version}
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                )}
               </div>
 
               {loaders.length > 0 && (
                 <div className="animate-fade-in-up">
-                  <h3 className="text-sm font-semibold text-gray-300 mb-2">Выберите загрузчик</h3>
-                  <div className="space-y-1">
-                    {loaders.map((loader, i) => (
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-sm font-semibold text-gray-300">Выберите загрузчик</h3>
+                    
+                    {selectedLoader && (
                       <button
-                        key={loader}
-                        onClick={() => setSelectedLoader(loader)}
-                        disabled={!selectedMcVersion}
-                        style={{ animationDelay: `${i * 50}ms` }}
-                        className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-all animate-fade-in-up ${
-                          !selectedMcVersion
-                            ? 'bg-gray-800/30 text-gray-600 cursor-not-allowed'
-                            : selectedLoader === loader
-                              ? 'bg-modrinth-green text-black'
-                              : 'bg-gray-800/50 text-gray-300 hover:bg-gray-700/50'
-                        }`}
+                        onClick={() => setSelectedLoader('')}
+                        className="p-1 hover:bg-red-500/20 rounded transition-colors text-red-500"
+                        title="Отменить"
                       >
-                        {getLoaderName(loader)}
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
                       </button>
-                    ))}
+                    )}
                   </div>
+                  
+                  {selectedLoader ? (
+                    <div className="mb-2 px-3 py-2 bg-modrinth-green/20 border border-modrinth-green/50 rounded-lg text-sm text-modrinth-green font-medium">
+                      {getLoaderName(selectedLoader)}
+                    </div>
+                  ) : (
+                    <div className="space-y-1">
+                      {loaders.map((loader, i) => (
+                        <button
+                          key={loader}
+                          onClick={() => setSelectedLoader(loader)}
+                          disabled={!selectedMcVersion}
+                          style={{ animationDelay: `${i * 50}ms` }}
+                          className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-all animate-fade-in-up ${
+                            !selectedMcVersion
+                              ? 'bg-gray-800/30 text-gray-600 cursor-not-allowed'
+                              : selectedLoader === loader
+                                ? 'bg-modrinth-green text-black'
+                                : 'bg-gray-800/50 text-gray-300 hover:bg-gray-700/50'
+                          }`}
+                        >
+                          {getLoaderName(loader)}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -226,7 +273,7 @@ export default function DownloadModal({ mod, versions, contentType = 'mods' }) {
                 <button
                   onClick={() => {
                     setIsOpen(false)
-                    window.location.href = `/${contentType.replace(/s$/, '')}/${mod.slug}?tab=versions`
+                    window.location.href = `/${contentType.replace(/s$/, '')}/${mod.slug}/versions`
                   }}
                   className="text-sm text-modrinth-green hover:text-green-400 transition-all duration-300 inline-flex items-center gap-1 hover:gap-2 mt-3"
                 >
@@ -243,4 +290,5 @@ export default function DownloadModal({ mod, versions, contentType = 'mods' }) {
     </>
   )
 }
+
 

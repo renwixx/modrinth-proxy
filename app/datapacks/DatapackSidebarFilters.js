@@ -53,14 +53,37 @@ export default function DatapackSidebarFilters({ onFilterChange, isMobile = fals
   const router = useRouter()
   const searchParams = useSearchParams()
   
+  const parseFacets = () => {
+    let categories = searchParams.get('c')?.split(',').filter(Boolean) || []
+    let version = searchParams.get('v') || ''
+    
+    const facetParam = searchParams.get('f')
+    if (facetParam) {
+      const facets = facetParam.split(',')
+      
+      facets.forEach(facet => {
+        const [type, value] = facet.split(':')
+        if (type === 'categories') {
+          if (!categories.includes(value)) categories.push(value)
+        } else if (type === 'versions' && !version) {
+          version = value
+        }
+      })
+    }
+    
+    return { categories, version }
+  }
+  
+  const { categories: initialCategories, version: initialVersion } = parseFacets()
+  
   const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '')
-  const [selectedVersion, setSelectedVersion] = useState(searchParams.get('v') || '')
-  const [selectedCategories, setSelectedCategories] = useState(
-    searchParams.get('c')?.split(',').filter(Boolean) || []
-  )
+  const [selectedVersion, setSelectedVersion] = useState(initialVersion)
+  const [selectedCategories, setSelectedCategories] = useState(initialCategories)
 
   const updateFilters = (updates) => {
     const params = new URLSearchParams(searchParams)
+    
+    params.delete('f')
     
     if (updates.q !== undefined) {
       if (updates.q) params.set('q', updates.q)
@@ -168,4 +191,5 @@ export default function DatapackSidebarFilters({ onFilterChange, isMobile = fals
     </div>
   )
 }
+
 

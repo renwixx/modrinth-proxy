@@ -68,20 +68,46 @@ export default function PluginSidebarFilters({ onFilterChange, isMobile = false 
   const router = useRouter()
   const searchParams = useSearchParams()
   
+  const parseFacets = () => {
+    let loaders = searchParams.get('l')?.split(',').filter(Boolean) || []
+    let platforms = searchParams.get('p')?.split(',').filter(Boolean) || []
+    let categories = searchParams.get('c')?.split(',').filter(Boolean) || []
+    let version = searchParams.get('v') || ''
+    
+    const facetParam = searchParams.get('f')
+    if (facetParam) {
+      const facets = facetParam.split(',')
+      const loadersSet = ['bukkit', 'spigot', 'paper', 'purpur', 'sponge', 'bungeecord', 'waterfall', 'velocity']
+      
+      facets.forEach(facet => {
+        const [type, value] = facet.split(':')
+        if (type === 'categories') {
+          if (loadersSet.includes(value.toLowerCase())) {
+            if (!loaders.includes(value)) loaders.push(value)
+          } else {
+            if (!categories.includes(value)) categories.push(value)
+          }
+        } else if (type === 'versions' && !version) {
+          version = value
+        }
+      })
+    }
+    
+    return { loaders, platforms, categories, version }
+  }
+  
+  const { loaders: initialLoaders, platforms: initialPlatforms, categories: initialCategories, version: initialVersion } = parseFacets()
+  
   const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '')
-  const [selectedVersion, setSelectedVersion] = useState(searchParams.get('v') || '')
-  const [selectedLoaders, setSelectedLoaders] = useState(
-    searchParams.get('l')?.split(',').filter(Boolean) || []
-  )
-  const [selectedPlatforms, setSelectedPlatforms] = useState(
-    searchParams.get('p')?.split(',').filter(Boolean) || []
-  )
-  const [selectedCategories, setSelectedCategories] = useState(
-    searchParams.get('c')?.split(',').filter(Boolean) || []
-  )
+  const [selectedVersion, setSelectedVersion] = useState(initialVersion)
+  const [selectedLoaders, setSelectedLoaders] = useState(initialLoaders)
+  const [selectedPlatforms, setSelectedPlatforms] = useState(initialPlatforms)
+  const [selectedCategories, setSelectedCategories] = useState(initialCategories)
 
   const updateFilters = (updates) => {
     const params = new URLSearchParams(searchParams)
+    
+    params.delete('f')
     
     if (updates.q !== undefined) {
       if (updates.q) params.set('q', updates.q)
@@ -271,4 +297,5 @@ export default function PluginSidebarFilters({ onFilterChange, isMobile = false 
     </div>
   )
 }
+
 

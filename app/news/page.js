@@ -6,7 +6,7 @@ async function getCommits() {
     const res = await fetch(
       'https://api.github.com/repos/b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0/modrinth-proxy/commits',
       {
-        next: { revalidate: 300 },
+        next: { revalidate: 1800 },
         headers: {
           'Accept': 'application/vnd.github.v3+json',
         }
@@ -158,7 +158,7 @@ export default async function NewsPage() {
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-                5мин
+                30мин
               </div>
               <div className="text-sm text-gray-500">Кеш</div>
             </div>
@@ -198,7 +198,7 @@ export default async function NewsPage() {
                             {firstLine}
                           </h2>
                           {restLines && (
-                            <p className="text-gray-400 text-sm leading-relaxed whitespace-pre-wrap">
+                            <p className="text-gray-400 text-sm leading-relaxed whitespace-pre-wrap break-words">
                               {restLines}
                             </p>
                           )}
@@ -308,4 +308,5 @@ export default async function NewsPage() {
     </div>
   )
 }
+
 

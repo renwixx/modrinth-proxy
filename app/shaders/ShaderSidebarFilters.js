@@ -66,20 +66,51 @@ export default function ShaderSidebarFilters({ onFilterChange, isMobile = false 
   const router = useRouter()
   const searchParams = useSearchParams()
   
+  const parseFacets = () => {
+    let categories = searchParams.get('c')?.split(',').filter(Boolean) || []
+    let features = searchParams.get('f')?.split(',').filter(Boolean) || []
+    let loaders = searchParams.get('l')?.split(',').filter(Boolean) || []
+    let version = searchParams.get('v') || ''
+    
+    const facetParam = searchParams.get('f')
+    if (facetParam) {
+      const rawFeatures = facetParam.split(',')
+      const parsedFeatures = []
+      const shadersLoaderSet = ['iris', 'optifine', 'canvas']
+      
+      rawFeatures.forEach(item => {
+        if (item.includes(':')) {
+          const [type, value] = item.split(':')
+          if (type === 'categories') {
+            if (shadersLoaderSet.includes(value.toLowerCase())) {
+              if (!loaders.includes(value)) loaders.push(value)
+            } else {
+              if (!categories.includes(value)) categories.push(value)
+            }
+          } else if (type === 'versions' && !version) {
+            version = value
+          }
+        } else {
+          parsedFeatures.push(item)
+        }
+      })
+      
+      features = parsedFeatures
+    }
+    
+    return { categories, features, loaders, version }
+  }
+  
+  const { categories: initialCategories, features: initialFeatures, loaders: initialLoaders, version: initialVersion } = parseFacets()
+  
   const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '')
-  const [selectedVersion, setSelectedVersion] = useState(searchParams.get('v') || '')
-  const [selectedCategories, setSelectedCategories] = useState(
-    searchParams.get('c')?.split(',').filter(Boolean) || []
-  )
-  const [selectedFeatures, setSelectedFeatures] = useState(
-    searchParams.get('f')?.split(',').filter(Boolean) || []
-  )
+  const [selectedVersion, setSelectedVersion] = useState(initialVersion)
+  const [selectedCategories, setSelectedCategories] = useState(initialCategories)
+  const [selectedFeatures, setSelectedFeatures] = useState(initialFeatures)
   const [selectedPerformance, setSelectedPerformance] = useState(
     searchParams.get('p')?.split(',').filter(Boolean) || []
   )
-  const [selectedLoaders, setSelectedLoaders] = useState(
-    searchParams.get('l')?.split(',').filter(Boolean) || []
-  )
+  const [selectedLoaders, setSelectedLoaders] = useState(initialLoaders)
 
   const updateFilters = (updates) => {
     const params = new URLSearchParams(searchParams)
@@ -310,4 +341,5 @@ export default function ShaderSidebarFilters({ onFilterChange, isMobile = false 
     </div>
   )
 }
+
 

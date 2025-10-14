@@ -1,7 +1,7 @@
 import './globals.css'
 import Link from 'next/link'
 import MobileNav from './components/MobileNav'
-import NewsCounter from './components/NewsCounter'
+import Navigation from './components/Navigation'
 
 export const metadata = {
   title: 'White Minecraft - Моды для Minecraft',
@@ -24,68 +24,7 @@ export default function RootLayout({ children }) {
                 <span className="text-lg md:text-xl font-bold bg-gradient-to-r from-modrinth-green to-green-400 bg-clip-text text-transparent hidden sm:block group-hover:from-green-400 group-hover:to-modrinth-green transition-all">White Minecraft</span>
               </Link>
               
-              <div className="hidden lg:flex items-center gap-0.5 md:gap-1 flex-1 overflow-x-auto custom-scrollbar pb-1">
-                <Link href="/mods" className="group relative px-2.5 md:px-4 py-2 rounded-lg transition-all duration-300 hover:bg-modrinth-green/10 whitespace-nowrap">
-                  <span className="text-xs md:text-sm font-semibold text-gray-300 group-hover:text-modrinth-green transition-colors flex items-center gap-1">
-                    <span className="hidden sm:inline">⚡</span>
-                    <span>Моды</span>
-                  </span>
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-modrinth-green to-green-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-full"></div>
-                </Link>
-                
-                <Link href="/plugins" className="group relative px-2.5 md:px-4 py-2 rounded-lg transition-all duration-300 hover:bg-blue-500/10 whitespace-nowrap">
-                  <span className="text-xs md:text-sm font-semibold text-gray-300 group-hover:text-blue-400 transition-colors flex items-center gap-1">
-                    <span className="hidden sm:inline">🎤</span>
-                    <span>Плагины</span>
-                  </span>
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-400 to-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-full"></div>
-                </Link>
-                
-                <Link href="/shaders" className="group relative px-2.5 md:px-4 py-2 rounded-lg transition-all duration-300 hover:bg-cyan-500/10 whitespace-nowrap">
-                  <span className="text-xs md:text-sm font-semibold text-gray-300 group-hover:text-cyan-400 transition-colors flex items-center gap-1">
-                    <span className="hidden sm:inline">✨</span>
-                    <span>Шейдеры</span>
-                  </span>
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-cyan-400 to-cyan-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-full"></div>
-                </Link>
-                
-                <Link href="/resourcepacks" className="group relative px-2.5 md:px-4 py-2 rounded-lg transition-all duration-300 hover:bg-purple-500/10 whitespace-nowrap">
-                  <span className="text-xs md:text-sm font-semibold text-gray-300 group-hover:text-purple-400 transition-colors flex items-center gap-1">
-                    <span className="hidden sm:inline">🎨</span>
-                    <span>Ресурспаки</span>
-                  </span>
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-purple-400 to-purple-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-full"></div>
-                </Link>
-                
-                <Link href="/datapacks" className="group relative px-2.5 md:px-4 py-2 rounded-lg transition-all duration-300 hover:bg-orange-500/10 whitespace-nowrap">
-                  <span className="text-xs md:text-sm font-semibold text-gray-300 group-hover:text-orange-400 transition-colors flex items-center gap-1">
-                    <span className="hidden sm:inline">🏔️</span>
-                    <span>Датапаки</span>
-                  </span>
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-orange-400 to-orange-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-full"></div>
-                </Link>
-                
-                <Link href="/modpacks" className="group relative px-2.5 md:px-4 py-2 rounded-lg transition-all duration-300 hover:bg-red-500/10 whitespace-nowrap">
-                  <span className="text-xs md:text-sm font-semibold text-gray-300 group-hover:text-red-400 transition-colors flex items-center gap-1">
-                    <span className="hidden sm:inline">📦</span>
-                    <span>Модпаки</span>
-                  </span>
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-red-400 to-red-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-full"></div>
-                </Link>
-                
-                <div className="flex-1"></div>
-                
-                <Link href="/news" className="group relative px-2.5 md:px-4 py-2 rounded-lg transition-all duration-300 hover:bg-yellow-500/10 whitespace-nowrap">
-                  <span className="text-xs md:text-sm font-semibold text-gray-300 group-hover:text-yellow-400 transition-colors flex items-center gap-1.5 relative">
-                    <span className="hidden sm:inline">📰</span>
-                    <span className="relative">
-                      Новости
-                      <NewsCounter />
-                    </span>
-                  </span>
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-yellow-400 to-yellow-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-full"></div>
-                </Link>
-              </div>
+              <Navigation />
             </div>
           </div>
         </nav>
@@ -171,4 +110,5 @@ export default function RootLayout({ children }) {
     </html>
   )
 }
+
 

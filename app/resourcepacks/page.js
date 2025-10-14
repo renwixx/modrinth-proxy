@@ -11,13 +11,33 @@ export const metadata = {
 
 export default async function ResourcepacksPage({ searchParams }) {
   const query = searchParams.q || '';
-  const version = searchParams.v || '';
-  const categories = searchParams.c?.split(',').filter(Boolean) || [];
-  const features = searchParams.f?.split(',').filter(Boolean) || [];
+  let version = searchParams.v || '';
+  let categories = searchParams.c?.split(',').filter(Boolean) || [];
+  let features = searchParams.f?.split(',').filter(Boolean) || [];
   const resolutions = searchParams.r?.split(',').filter(Boolean) || [];
   const page = parseInt(searchParams.page || '1');
   const limit = 20;
   const offset = (page - 1) * limit;
+
+  if (searchParams.f) {
+    const rawFeatures = searchParams.f.split(',');
+    const parsedFeatures = [];
+    
+    rawFeatures.forEach(item => {
+      if (item.includes(':')) {
+        const [type, value] = item.split(':');
+        if (type === 'categories') {
+          if (!categories.includes(value)) categories.push(value);
+        } else if (type === 'versions' && !version) {
+          version = value;
+        }
+      } else {
+        parsedFeatures.push(item);
+      }
+    });
+    
+    features = parsedFeatures;
+  }
 
   const facets = [['project_type:resourcepack']];
   
@@ -125,38 +145,22 @@ export default async function ResourcepacksPage({ searchParams }) {
               <Link
                 key={pack.project_id}
                 href={`/resourcepack/${pack.slug}`}
-                className="bg-modrinth-dark border border-gray-800 rounded-lg p-3 md:p-4 card-hover flex flex-col sm:flex-row items-start sm:items-center gap-3 md:gap-4"
+                className="bg-modrinth-dark border border-gray-800 rounded-lg p-3 md:p-4 card-hover flex items-start gap-3 md:gap-4"
               >
-                <div className="flex items-center gap-3 w-full sm:w-auto">
-                  {pack.icon_url && (
-                    <img
-                      src={pack.icon_url}
-                      alt={pack.title}
-                      className="w-12 h-12 md:w-16 md:h-16 rounded-lg object-cover flex-shrink-0"
-                    />
-                  )}
-                  <div className="flex-1 min-w-0 sm:hidden">
-                    <h3 className="text-lg font-bold mb-1 line-clamp-1">{pack.title}</h3>
-                    <div className="flex items-center gap-2 text-xs">
-                      <span className="text-gray-400 flex items-center gap-1">
-                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                        </svg>
-                        {formatDownloads(pack.downloads)}
-                      </span>
-                      <span className="text-gray-400 flex items-center gap-1">
-                        <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                        </svg>
-                        {formatDownloads(pack.follows)}
-                      </span>
-                    </div>
-                  </div>
-                </div>
+                {pack.icon_url && (
+                  <img
+                    src={pack.icon_url}
+                    alt={pack.title}
+                    className="w-12 h-12 md:w-16 md:h-16 rounded-lg object-cover flex-shrink-0"
+                  />
+                )}
                 
-                <div className="flex-1 min-w-0 w-full sm:w-auto hidden sm:block">
-                  <h3 className="text-lg md:text-xl font-bold mb-1">{pack.title}</h3>
-                  <p className="text-sm text-gray-400 mb-2 line-clamp-1">
+                <div className="flex-1 min-w-0">
+                  <div className="mb-1 flex items-baseline gap-2 flex-wrap">
+                    <h3 className="text-lg md:text-xl font-bold">{pack.title}</h3>
+                    <span className="text-xs text-gray-500">от {pack.author}</span>
+                  </div>
+                  <p className="text-sm text-gray-400 mb-2">
                     {pack.description}
                   </p>
                   <div className="flex items-center gap-2 text-sm flex-wrap">
@@ -182,12 +186,6 @@ export default async function ResourcepacksPage({ searchParams }) {
                         </span>
                       ))}
                     </div>
-                  </div>
-                </div>
-
-                <div className="w-full sm:w-auto flex-shrink-0">
-                  <div className="bg-modrinth-green text-black px-4 md:px-6 py-2 rounded-lg font-semibold hover:bg-green-400 transition text-center text-sm md:text-base">
-                    Скачать
                   </div>
                 </div>
               </Link>
@@ -226,4 +224,5 @@ export default async function ResourcepacksPage({ searchParams }) {
     </>
   )
 }
+
 

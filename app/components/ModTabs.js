@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useEffect } from 'react'
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
+import Link from 'next/link'
 import { formatDate } from '@/lib/modrinth'
 import { filterVersionChangelog } from '@/lib/contentFilter'
 import ReactMarkdown from 'react-markdown'
@@ -185,7 +186,7 @@ export default function ModTabs({ mod, versions, initialTab = 'description', ini
 
         {activeTab === 'versions' && (
           <div>
-            <div className="space-y-3 md:space-y-4 mb-6 pb-4 border-b border-gray-800">
+            <div className="space-y-3 md:space-y-4 mb-6">
              
               <div className="relative">
                 <svg className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -309,75 +310,109 @@ export default function ModTabs({ mod, versions, initialTab = 'description', ini
             {filteredVersions.length === 0 ? (
               <p className="text-gray-400 text-center py-8">No versions found</p>
             ) : (
-              <div className="space-y-2">
-                {filteredVersions.map((version) => (
-                  <div
-                    key={version.id}
-                    className="border border-gray-700 rounded-lg p-3 hover:border-modrinth-green transition flex items-center gap-3"
-                  >
-                    <div className={`w-8 h-8 rounded flex items-center justify-center font-bold text-sm flex-shrink-0 ${
-                      version.version_type === 'release' ? 'bg-green-900 text-green-300' :
-                      version.version_type === 'beta' ? 'bg-yellow-900 text-yellow-300' :
-                      'bg-red-900 text-red-300'
-                    }`}>
-                      {version.version_type[0].toUpperCase()}
-                    </div>
-
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-baseline gap-2 mb-0.5">
-                        <h3 className="font-semibold text-sm">{version.version_number || version.name}</h3>
-                      </div>
-                      <div className="text-xs text-gray-400 mb-1">{version.name}</div>
-                      <div className="flex flex-wrap gap-1.5 text-xs">
-                        {version.game_versions.slice(0, 1).map((v) => (
-                          <span key={v} className="text-gray-400">{v}</span>
-                        ))}
-                        {version.loaders.map((loader) => (
-                          <span key={loader} className="text-gray-400 capitalize">{loader}</span>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="text-right flex-shrink-0 mr-3">
-                      <div className="text-xs text-gray-500 mb-0.5">
-                        {(() => {
-                          const date = new Date(version.date_published)
-                          const now = new Date()
-                          const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24))
-                          
-                          if (diffDays === 0) return 'today'
-                          if (diffDays === 1) return 'yesterday'
-                          if (diffDays < 7) return `${diffDays} days ago`
-                          if (diffDays < 30) return `${Math.floor(diffDays / 7)} week${Math.floor(diffDays / 7) > 1 ? 's' : ''} ago`
-                          if (diffDays < 365) return `${Math.floor(diffDays / 30)} month${Math.floor(diffDays / 30) > 1 ? 's' : ''} ago`
-                          return `${Math.floor(diffDays / 365)} year${Math.floor(diffDays / 365) > 1 ? 's' : ''} ago`
-                        })()}
-                      </div>
-                      <div className="text-xs text-gray-400">
-                        {version.downloads >= 1000 
-                          ? `${(version.downloads / 1000).toFixed(1)}k`
-                          : version.downloads
-                        }
-                      </div>
-                    </div>
-
-                    {version.files.map((file) => (
-                      <a
-                        key={file.hashes.sha1}
-                        href={file.url}
-                        download
-                        className="group relative flex-shrink-0"
-                      >
-                        <div className="bg-modrinth-green text-black px-4 py-2 rounded-lg font-semibold hover:bg-green-400 transition flex items-center gap-2">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                          </svg>
-                          <span className="text-sm">Download</span>
+              <div>
+                {filteredVersions.map((version, index) => {
+                  const primaryFile = version.files.find(f => f.primary) || version.files[0]
+                  const versionTypeColor = version.version_type === 'release' ? 'bg-green-900 text-green-300' :
+                                          version.version_type === 'beta' ? 'bg-yellow-900 text-yellow-300' :
+                                          'bg-red-900 text-red-300'
+                  
+                  return (
+                    <div key={version.id}>
+                      <div className="group relative">
+                        <Link 
+                          href={`${pathname}/version/${encodeURIComponent(version.version_number)}`}
+                          className="absolute before:absolute before:inset-0 before:transition-all before:content-[''] hover:before:backdrop-brightness-110"
+                          style={{ inset: 'calc(-1rem - 2px) -2rem' }}
+                        />
+                      
+                      <div className="flex items-center gap-3 px-3 py-2">
+                        <div className={`relative z-10 w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0 ${versionTypeColor}`}>
+                          {version.version_type[0].toUpperCase()}
                         </div>
-                      </a>
-                    ))}
+
+                        <div className="relative z-10 pointer-events-none flex-1 min-w-0">
+                          <div className="font-bold text-sm group-hover:underline">{version.version_number || version.name}</div>
+                          <div className="text-xs font-medium text-gray-400">{version.name}</div>
+                        </div>
+
+                        <div className="relative z-10 flex flex-wrap gap-1.5 items-center">
+                          {version.game_versions.slice(0, 1).map((v) => (
+                            <span 
+                              key={v}
+                              className="px-2 py-1 bg-gray-800 text-gray-300 rounded-full text-xs font-semibold hover:underline cursor-pointer"
+                            >
+                              {v}
+                            </span>
+                          ))}
+                          {version.loaders.map((loader) => (
+                            <span 
+                              key={loader}
+                              className="px-2 py-1 bg-gray-800 text-gray-300 rounded-full text-xs font-semibold hover:underline cursor-pointer capitalize inline-flex items-center gap-1"
+                            >
+                              {loader === 'fabric' && (
+                                <svg className="w-3 h-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                                </svg>
+                              )}
+                              {loader}
+                            </span>
+                          ))}
+                        </div>
+
+                        <div className="relative z-10 pointer-events-none flex items-center gap-3 text-xs text-gray-400 font-medium">
+                          <div className="flex items-center gap-1">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2" />
+                            </svg>
+                            {(() => {
+                              const date = new Date(version.date_published)
+                              const now = new Date()
+                              const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24))
+                              const diffHours = Math.floor((now - date) / (1000 * 60 * 60))
+                              
+                              if (diffHours < 1) return 'just now'
+                              if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`
+                              if (diffDays === 1) return 'yesterday'
+                              if (diffDays < 7) return `${diffDays} days ago`
+                              if (diffDays < 30) return `${Math.floor(diffDays / 7)} week${Math.floor(diffDays / 7) > 1 ? 's' : ''} ago`
+                              if (diffDays < 365) return `${Math.floor(diffDays / 30)} month${Math.floor(diffDays / 30) > 1 ? 's' : ''} ago`
+                              return `${Math.floor(diffDays / 365)} year${Math.floor(diffDays / 365) > 1 ? 's' : ''} ago`
+                            })()}
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                            {version.downloads >= 1000 
+                              ? `${(version.downloads / 1000).toFixed(1)}k`
+                              : version.downloads
+                            }
+                          </div>
+                        </div>
+
+                        {primaryFile && (
+                          <a
+                            href={primaryFile.url}
+                            download
+                            onClick={(e) => e.stopPropagation()}
+                            className="relative z-10 flex-shrink-0 w-9 h-9 flex items-center justify-center rounded-full hover:bg-modrinth-green hover:text-black transition-all group/btn"
+                            title="Download"
+                          >
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                    
+                    {index < filteredVersions.length - 1 && (
+                      <div className="h-px w-full bg-gray-800 my-2" />
+                    )}
                   </div>
-                ))}
+                  )
+                })}
               </div>
             )}
           </div>

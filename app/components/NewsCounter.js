@@ -10,8 +10,13 @@ export default function NewsCounter() {
       try {
         const lastSeenSha = localStorage.getItem('lastSeenCommitSha')
         
-        const res = await fetch('https://api.github.com/repos/b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0/modrinth-proxy/commits')
+        const res = await fetch('/api/commits')
         const commits = await res.json()
+        
+        if (!Array.isArray(commits)) {
+          console.error('Invalid commits data:', commits)
+          return
+        }
         
         if (!lastSeenSha) {
           setUnreadCount(0)
@@ -37,7 +42,7 @@ export default function NewsCounter() {
     }
     
     window.addEventListener('commitsRead', handleCommitsRead)
-    const interval = setInterval(checkUnread, 60000)
+    const interval = setInterval(checkUnread, 1800000)
     
     return () => {
       window.removeEventListener('commitsRead', handleCommitsRead)
@@ -53,4 +58,5 @@ export default function NewsCounter() {
     </span>
   )
 }
+
 

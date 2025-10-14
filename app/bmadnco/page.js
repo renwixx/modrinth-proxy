@@ -8,7 +8,7 @@ export const metadata = {
 export default function AboutPage() {
   return (
     <div className="min-h-screen">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12 animate-fade-in">
           <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-modrinth-green via-blue-400 to-purple-400 bg-clip-text text-transparent">
             О проекте White Minecraft
@@ -118,7 +118,6 @@ export default function AboutPage() {
                 </li>
               </ul>
 
-              {/* Статистика блокировок */}
               <div className="mt-8 bg-gradient-to-br from-purple-950/50 to-indigo-950/50 border border-purple-600/50 rounded-xl p-6">
                 <h3 className="text-xl font-bold text-purple-300 mb-6 text-center">Статистика фильтрации контента</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -277,4 +276,5 @@ export default function AboutPage() {
     </div>
   )
 }
+
 
