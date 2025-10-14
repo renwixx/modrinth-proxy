@@ -4,8 +4,11 @@ import MobileNav from './components/MobileNav'
 import Navigation from './components/Navigation'
 
 export const metadata = {
-  title: 'White Minecraft - Моды для Minecraft',
+  title: 'ModrinthProxy',
   description: 'Удобный поиск и скачивание модов, плагинов, шейдеров для Minecraft на русском языке',
+  verification: {
+    yandex: '79af01936dc8fd7f',
+  },
 }
 
 export default function RootLayout({ children }) {

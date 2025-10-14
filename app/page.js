@@ -2,7 +2,7 @@ import Link from 'next/link'
 import AnimatedBackground from './components/AnimatedBackground'
 
 export const metadata = {
-  title: 'White Minecraft - Моды, плагины, шейдеры для Minecraft на русском',
+  title: 'ModrinthProxy',
   description: 'Скачать моды, плагины, шейдеры, ресурспаки и датапаки для Minecraft. Удобный каталог на русском языке. Тысячи модификаций для любой версии.',
 }
 
