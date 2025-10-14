@@ -436,6 +436,29 @@ body {
   width: 100% !important;
   border-collapse: collapse !important;
   margin-bottom: 1rem !important;
+  display: block !important;
+  overflow-x: auto !important;
+  white-space: nowrap !important;
+  scroll-behavior: smooth !important;
+}
+
+.prose table::-webkit-scrollbar {
+  height: 4px !important;
+}
+
+.prose table::-webkit-scrollbar-track {
+  background: transparent !important;
+  border-radius: 2px !important;
+}
+
+.prose table::-webkit-scrollbar-thumb {
+  background: #4b5563 !important;
+  border-radius: 2px !important;
+  transition: background 0.3s ease !important;
+}
+
+.prose table::-webkit-scrollbar-thumb:hover {
+  background: #6b7280 !important;
 }
 
 .prose th,
@@ -444,6 +467,7 @@ body {
   padding: 0.5rem !important;
   text-align: left !important;
   font-size: 1em !important;
+  white-space: nowrap !important;
 }
 
 .prose th {

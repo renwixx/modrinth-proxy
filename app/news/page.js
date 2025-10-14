@@ -74,49 +74,63 @@ function formatDate(dateString) {
 
 function getCommitType(message) {
   const msg = message.toLowerCase()
+  const firstWord = msg.split(/[\s:]/)[0]
   
-  if (msg.includes('fix') || msg.includes('исправл') || msg.includes('баг')) {
-    return { 
+  const types = [
+    { 
+      keywords: ['fix', 'исправл', 'баг'], 
       icon: '🔧', 
       color: 'from-orange-500 to-red-500',
       bg: 'from-orange-500/20 to-red-500/20',
       label: 'Исправление' 
-    }
-  } else if (msg.includes('add') || msg.includes('new') || msg.includes('добавл') || msg.includes('создан')) {
-    return { 
-      icon: '✨', 
-      color: 'from-green-500 to-emerald-500',
-      bg: 'from-green-500/20 to-emerald-500/20',
-      label: 'Новое' 
-    }
-  } else if (msg.includes('update') || msg.includes('обновл') || msg.includes('улучш')) {
-    return { 
-      icon: '🚀', 
-      color: 'from-blue-500 to-cyan-500',
-      bg: 'from-blue-500/20 to-cyan-500/20',
-      label: 'Обновление' 
-    }
-  } else if (msg.includes('design') || msg.includes('redesign') || msg.includes('ui') || msg.includes('style')) {
-    return { 
-      icon: '🎨', 
-      color: 'from-purple-500 to-pink-500',
-      bg: 'from-purple-500/20 to-pink-500/20',
-      label: 'Дизайн' 
-    }
-  } else if (msg.includes('remove') || msg.includes('delete') || msg.includes('удал')) {
-    return { 
+    },
+    { 
+      keywords: ['remove', 'delete', 'удал'], 
       icon: '🗑️', 
       color: 'from-red-500 to-rose-500',
       bg: 'from-red-500/20 to-rose-500/20',
       label: 'Удаление' 
+    },
+    { 
+      keywords: ['add', 'new', 'добавл', 'создан'], 
+      icon: '✨', 
+      color: 'from-green-500 to-emerald-500',
+      bg: 'from-green-500/20 to-emerald-500/20',
+      label: 'Новое' 
+    },
+    { 
+      keywords: ['update', 'обновл', 'улучш'], 
+      icon: '🚀', 
+      color: 'from-blue-500 to-cyan-500',
+      bg: 'from-blue-500/20 to-cyan-500/20',
+      label: 'Обновление' 
+    },
+    { 
+      keywords: ['design', 'redesign', 'ui', 'style'], 
+      icon: '🎨', 
+      color: 'from-purple-500 to-pink-500',
+      bg: 'from-purple-500/20 to-pink-500/20',
+      label: 'Дизайн' 
+    },
+  ]
+  
+  for (const type of types) {
+    if (type.keywords.some(keyword => firstWord.startsWith(keyword))) {
+      return type
     }
-  } else {
-    return { 
-      icon: '📝', 
-      color: 'from-gray-500 to-slate-500',
-      bg: 'from-gray-500/20 to-slate-500/20',
-      label: 'Изменение' 
+  }
+  
+  for (const type of types) {
+    if (type.keywords.some(keyword => msg.includes(keyword))) {
+      return type
     }
+  }
+  
+  return { 
+    icon: '📝', 
+    color: 'from-gray-500 to-slate-500',
+    bg: 'from-gray-500/20 to-slate-500/20',
+    label: 'Изменение' 
   }
 }
 
