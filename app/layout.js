@@ -2,6 +2,7 @@ import './globals.css'
 import Link from 'next/link'
 import MobileNav from './components/MobileNav'
 import Navigation from './components/Navigation'
+import ExtensionBanner from './components/ExtensionBanner'
 
 export const metadata = {
   title: 'ModrinthProxy',
@@ -124,6 +125,8 @@ export default function RootLayout({ children }) {
             </div>
           </div>
         </footer>
+        
+        <ExtensionBanner />
       </body>
     </html>
   )
