@@ -10,6 +10,9 @@ export default function ContentNavigation({ slug, contentType, versionsCount = 0
     if (path === `/${contentType}/${slug}`) {
       return pathname === path
     }
+    if (path === `/${contentType}/${slug}/versions`) {
+      return pathname.startsWith(path) || pathname.includes(`/${contentType}/${slug}/version/`)
+    }
     return pathname.startsWith(path)
   }
   

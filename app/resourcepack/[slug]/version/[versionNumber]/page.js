@@ -10,9 +10,30 @@ export async function generateMetadata({ params }) {
     
     if (!version) throw new Error('Version not found')
     
+    const url = `https://modrinth.white-minecraft.ru/resourcepack/${params.slug}/version/${params.versionNumber}`
+    const description = version.changelog ? version.changelog.slice(0, 150) : `Скачать версию ${version.version_number} ресурспака ${resourcepack.title}`
+    
     return {
-      title: `${resourcepack.title} ${version.version_number} - Скачать версию | White Minecraft`,
-      description: version.changelog ? version.changelog.slice(0, 150) : `Скачать версию ${version.version_number} ресурспака ${resourcepack.title}`,
+      title: `${version.version_number} - ${resourcepack.title}`,
+      description: description,
+      robots: 'all',
+      openGraph: {
+        siteName: 'modrinth.white-minecraft',
+        type: 'website',
+        url: url,
+        title: `${version.version_number} - ${resourcepack.title}`,
+        description: version.changelog ? version.changelog.slice(0, 150) : resourcepack.description,
+        images: resourcepack.icon_url ? [{ url: resourcepack.icon_url }] : [],
+      },
+      twitter: {
+        card: 'summary',
+        title: `${version.version_number} - ${resourcepack.title}`,
+        description: version.changelog ? version.changelog.slice(0, 150) : resourcepack.description,
+        images: resourcepack.icon_url ? [resourcepack.icon_url] : [],
+      },
+      other: {
+        'theme-color': '#1bd96a',
+      },
     }
   } catch {
     return {
@@ -52,6 +73,7 @@ export default async function ResourcepackVersionPage({ params }) {
       contentType="resourcepack"
       pluralName="resourcepacks"
       singularName="resourcepack"
+      versionsCount={versions.length}
     />
   )
 }

@@ -5,6 +5,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
 import CopyButton from './CopyButton'
+import ContentNavigation from './ContentNavigation'
 
 class VersionPageData {
   constructor(project, version) {
@@ -222,7 +223,7 @@ function FileItem({ file }) {
   )
 }
 
-export default function VersionPage({ project, version, author, contentType, pluralName, singularName }) {
+export default function VersionPage({ project, version, author, contentType, pluralName, singularName, versionsCount }) {
   const pageData = new VersionPageData(project, version)
   const primaryFile = pageData.getPrimaryFile()
   const versionType = pageData.getVersionTypeInfo()
@@ -304,22 +305,55 @@ export default function VersionPage({ project, version, author, contentType, plu
             </div>
           </div>
 
-          <div className="w-full lg:w-auto">
+          <div className="w-full lg:w-auto lg:flex lg:items-center">
             {primaryFile && (
-              <a
-                href={primaryFile.url}
-                download
-                className="w-full lg:w-auto inline-flex items-center justify-center gap-2 bg-modrinth-green hover:bg-green-400 text-black px-6 py-3 rounded-lg font-bold transition-all duration-300 hover:scale-105"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                </svg>
-                Скачать
-              </a>
+              <>
+                <div className="hidden lg:block w-full lg:w-auto">
+                  <a
+                    href={primaryFile.url}
+                    download
+                    className="w-full lg:w-auto inline-flex items-center justify-center gap-2 bg-modrinth-green hover:bg-green-400 text-black px-6 py-3 rounded-lg font-bold transition-all duration-300 hover:scale-105"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
+                    Скачать
+                  </a>
+                </div>
+                
+                <div className="lg:hidden flex items-center gap-3 justify-between">
+                  <div className="flex flex-col gap-2 text-xs">
+                    <div className="flex items-center gap-1.5 text-gray-400">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                      <span className="font-semibold text-white">{formatDownloads(project.downloads)}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 text-gray-400">
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                      </svg>
+                      <span className="font-semibold text-white">{formatDownloads(project.followers)}</span>
+                    </div>
+                  </div>
+                  
+                  <a
+                    href={primaryFile.url}
+                    download
+                    className="flex items-center justify-center w-12 h-12 bg-modrinth-green hover:bg-green-400 text-black rounded-full transition-all duration-300 hover:scale-105 flex-shrink-0"
+                  >
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
+                  </a>
+                </div>
+              </>
             )}
           </div>
         </div>
       </div>
+
+      <ContentNavigation slug={project.slug} contentType={singularName} versionsCount={versionsCount || 0} />
 
       <div className="bg-modrinth-dark border border-gray-800 rounded-lg p-4 mb-6">
         <div className="flex items-center gap-2 text-sm text-gray-400 mb-2">

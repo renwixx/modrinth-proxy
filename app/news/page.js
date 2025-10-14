@@ -1,5 +1,8 @@
 import Link from 'next/link'
 import MarkCommitsRead from '../components/MarkCommitsRead'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+import rehypeRaw from 'rehype-raw'
 
 async function getCommits() {
   try {
@@ -183,44 +186,35 @@ export default async function NewsPage() {
           <div className="space-y-4">
             {commits.map((commit, index) => {
               const type = getCommitType(commit.commit.message)
-              const firstLine = commit.commit.message.split('\n')[0]
-              const restLines = commit.commit.message.split('\n').slice(1).join('\n').trim()
               
               return (
                 <div
                   key={commit.sha}
-                  className="group relative bg-gradient-to-br from-white/5 via-white/3 to-transparent backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:border-modrinth-green/50 transition-all duration-500 hover:scale-[1.01] hover:shadow-[0_10px_40px_rgba(26,230,109,0.2)] overflow-hidden"
+                  className="group relative bg-gradient-to-br from-white/5 via-white/3 to-transparent backdrop-blur-xl border border-white/10 rounded-2xl p-6 transition-all duration-500 overflow-hidden"
                   style={{ animationDelay: `${index * 50}ms` }}
                 >
-                  <div className={`absolute inset-0 bg-gradient-to-br ${type.bg} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
                   
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-500">
                     <div className="absolute -inset-[100%] bg-gradient-to-tr from-transparent via-white/30 to-transparent animate-shimmer"></div>
                   </div>
 
                   <div className="relative flex flex-col md:flex-row gap-4 md:gap-6">
-                    <div className="hidden md:block flex-shrink-0">
-                      <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${type.bg} border border-white/20 flex items-center justify-center text-3xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
+                    <div className="hidden md:block flex-shrink-0 relative group/icon">
+                      <div className={`w-14 h-14 rounded-full bg-gradient-to-br ${type.bg} border border-white/20 flex items-center justify-center text-3xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
                         {type.icon}
                       </div>
+                      
+                      
                     </div>
 
                     <div className="flex-1 min-w-0">
-                      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-3">
-                        <div className="flex-1 min-w-0">
-                          <h2 className="text-xl font-bold text-white mb-2 group-hover:text-modrinth-green transition-colors duration-300">
-                            {firstLine}
-                          </h2>
-                          {restLines && (
-                            <p className="text-gray-400 text-sm leading-relaxed whitespace-pre-wrap break-words">
-                              {restLines}
-                            </p>
-                          )}
-                        </div>
-                        
-                        <span className={`self-start px-4 py-1.5 rounded-full text-xs font-bold bg-gradient-to-r ${type.color} text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300`}>
-                          {type.label}
-                        </span>
+                      <div className="prose prose-invert prose-sm max-w-none mb-3">
+                        <ReactMarkdown
+                          remarkPlugins={[remarkGfm]}
+                          rehypePlugins={[rehypeRaw]}
+                        >
+                          {commit.commit.message}
+                        </ReactMarkdown>
                       </div>
 
                       <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">

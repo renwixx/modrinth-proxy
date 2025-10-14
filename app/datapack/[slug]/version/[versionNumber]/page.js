@@ -10,9 +10,30 @@ export async function generateMetadata({ params }) {
     
     if (!version) throw new Error('Version not found')
     
+    const url = `https://modrinth.white-minecraft.ru/datapack/${params.slug}/version/${params.versionNumber}`
+    const description = version.changelog ? version.changelog.slice(0, 150) : `Скачать версию ${version.version_number} датапака ${datapack.title}`
+    
     return {
-      title: `${datapack.title} ${version.version_number} - Скачать версию | White Minecraft`,
-      description: version.changelog ? version.changelog.slice(0, 150) : `Скачать версию ${version.version_number} датапака ${datapack.title}`,
+      title: `${version.version_number} - ${datapack.title}`,
+      description: description,
+      robots: 'all',
+      openGraph: {
+        siteName: 'modrinth.white-minecraft',
+        type: 'website',
+        url: url,
+        title: `${version.version_number} - ${datapack.title}`,
+        description: version.changelog ? version.changelog.slice(0, 150) : datapack.description,
+        images: datapack.icon_url ? [{ url: datapack.icon_url }] : [],
+      },
+      twitter: {
+        card: 'summary',
+        title: `${version.version_number} - ${datapack.title}`,
+        description: version.changelog ? version.changelog.slice(0, 150) : datapack.description,
+        images: datapack.icon_url ? [datapack.icon_url] : [],
+      },
+      other: {
+        'theme-color': '#1bd96a',
+      },
     }
   } catch {
     return {
@@ -52,6 +73,7 @@ export default async function DatapackVersionPage({ params }) {
       contentType="datapack"
       pluralName="datapacks"
       singularName="datapack"
+      versionsCount={versions.length}
     />
   )
 }

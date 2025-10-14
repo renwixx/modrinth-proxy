@@ -10,9 +10,30 @@ export async function generateMetadata({ params }) {
     
     if (!version) throw new Error('Version not found')
     
+    const url = `https://modrinth.white-minecraft.ru/mod/${params.slug}/version/${params.versionNumber}`
+    const description = version.changelog ? version.changelog.slice(0, 150) : `Скачать версию ${version.version_number} мода ${mod.title}`
+    
     return {
-      title: `${mod.title} ${version.version_number} - Скачать версию | White Minecraft`,
-      description: version.changelog ? version.changelog.slice(0, 150) : `Скачать версию ${version.version_number} мода ${mod.title}`,
+      title: `${version.version_number} - ${mod.title}`,
+      description: description,
+      robots: 'all',
+      openGraph: {
+        siteName: 'modrinth.white-minecraft',
+        type: 'website',
+        url: url,
+        title: `${version.version_number} - ${mod.title}`,
+        description: version.changelog ? version.changelog.slice(0, 150) : mod.description,
+        images: mod.icon_url ? [{ url: mod.icon_url }] : [],
+      },
+      twitter: {
+        card: 'summary',
+        title: `${version.version_number} - ${mod.title}`,
+        description: version.changelog ? version.changelog.slice(0, 150) : mod.description,
+        images: mod.icon_url ? [mod.icon_url] : [],
+      },
+      other: {
+        'theme-color': '#1bd96a',
+      },
     }
   } catch {
     return {
@@ -52,6 +73,7 @@ export default async function ModVersionPage({ params }) {
       contentType="mod"
       pluralName="mods"
       singularName="mod"
+      versionsCount={versions.length}
     />
   )
 }

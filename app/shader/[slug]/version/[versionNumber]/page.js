@@ -10,9 +10,30 @@ export async function generateMetadata({ params }) {
     
     if (!version) throw new Error('Version not found')
     
+    const url = `https://modrinth.white-minecraft.ru/shader/${params.slug}/version/${params.versionNumber}`
+    const description = version.changelog ? version.changelog.slice(0, 150) : `Скачать версию ${version.version_number} шейдера ${shader.title}`
+    
     return {
-      title: `${shader.title} ${version.version_number} - Скачать версию | White Minecraft`,
-      description: version.changelog ? version.changelog.slice(0, 150) : `Скачать версию ${version.version_number} шейдера ${shader.title}`,
+      title: `${version.version_number} - ${shader.title}`,
+      description: description,
+      robots: 'all',
+      openGraph: {
+        siteName: 'modrinth.white-minecraft',
+        type: 'website',
+        url: url,
+        title: `${version.version_number} - ${shader.title}`,
+        description: version.changelog ? version.changelog.slice(0, 150) : shader.description,
+        images: shader.icon_url ? [{ url: shader.icon_url }] : [],
+      },
+      twitter: {
+        card: 'summary',
+        title: `${version.version_number} - ${shader.title}`,
+        description: version.changelog ? version.changelog.slice(0, 150) : shader.description,
+        images: shader.icon_url ? [shader.icon_url] : [],
+      },
+      other: {
+        'theme-color': '#1bd96a',
+      },
     }
   } catch {
     return {
@@ -52,6 +73,7 @@ export default async function ShaderVersionPage({ params }) {
       contentType="shader"
       pluralName="shaders"
       singularName="shader"
+      versionsCount={versions.length}
     />
   )
 }

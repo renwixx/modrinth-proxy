@@ -10,9 +10,30 @@ export async function generateMetadata({ params }) {
     
     if (!version) throw new Error('Version not found')
     
+    const url = `https://modrinth.white-minecraft.ru/modpack/${params.slug}/version/${params.versionNumber}`
+    const description = version.changelog ? version.changelog.slice(0, 150) : `Скачать версию ${version.version_number} модпака ${modpack.title}`
+    
     return {
-      title: `${modpack.title} ${version.version_number} - Скачать версию | White Minecraft`,
-      description: version.changelog ? version.changelog.slice(0, 150) : `Скачать версию ${version.version_number} модпака ${modpack.title}`,
+      title: `${version.version_number} - ${modpack.title}`,
+      description: description,
+      robots: 'all',
+      openGraph: {
+        siteName: 'modrinth.white-minecraft',
+        type: 'website',
+        url: url,
+        title: `${version.version_number} - ${modpack.title}`,
+        description: version.changelog ? version.changelog.slice(0, 150) : modpack.description,
+        images: modpack.icon_url ? [{ url: modpack.icon_url }] : [],
+      },
+      twitter: {
+        card: 'summary',
+        title: `${version.version_number} - ${modpack.title}`,
+        description: version.changelog ? version.changelog.slice(0, 150) : modpack.description,
+        images: modpack.icon_url ? [modpack.icon_url] : [],
+      },
+      other: {
+        'theme-color': '#1bd96a',
+      },
     }
   } catch {
     return {
@@ -52,6 +73,7 @@ export default async function ModpackVersionPage({ params }) {
       contentType="modpack"
       pluralName="modpacks"
       singularName="modpack"
+      versionsCount={versions.length}
     />
   )
 }

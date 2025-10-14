@@ -13,9 +13,30 @@ import rehypeRaw from 'rehype-raw'
 export async function generateMetadata({ params }) {
   try {
     const modpack = await getMod(params.slug)
+    const url = `https://modrinth.white-minecraft.ru/modpack/${params.slug}`
+    const fullDescription = modpack.description || `Скачать ${modpack.title} для Minecraft. ${formatDownloads(modpack.downloads)} загрузок. Поддержка версий: ${modpack.game_versions?.slice(0, 3).join(', ')}.`
+    
     return {
-      title: `${modpack.title} - Скачать модпак для Minecraft | White Minecraft`,
-      description: modpack.description || `Скачать ${modpack.title} для Minecraft. ${formatDownloads(modpack.downloads)} загрузок. Поддержка версий: ${modpack.game_versions?.slice(0, 3).join(', ')}.`,
+      title: `${modpack.title} - Майнкрафт Модпак`,
+      description: fullDescription,
+      robots: 'all',
+      openGraph: {
+        siteName: 'modrinth.white-minecraft',
+        type: 'website',
+        url: url,
+        title: `${modpack.title} - Майнкрафт Модпак`,
+        description: modpack.description,
+        images: modpack.icon_url ? [{ url: modpack.icon_url }] : [],
+      },
+      twitter: {
+        card: 'summary',
+        title: `${modpack.title} - Майнкрафт Модпак`,
+        description: modpack.description,
+        images: modpack.icon_url ? [modpack.icon_url] : [],
+      },
+      other: {
+        'theme-color': '#1bd96a',
+      },
     }
   } catch {
     return {

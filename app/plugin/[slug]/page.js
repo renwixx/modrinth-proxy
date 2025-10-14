@@ -13,9 +13,30 @@ import rehypeRaw from 'rehype-raw'
 export async function generateMetadata({ params }) {
   try {
     const plugin = await getMod(params.slug)
+    const url = `https://modrinth.white-minecraft.ru/plugin/${params.slug}`
+    const fullDescription = plugin.description || `Скачать ${plugin.title} для Minecraft. ${formatDownloads(plugin.downloads)} загрузок. Поддержка версий: ${plugin.game_versions?.slice(0, 3).join(', ')}.`
+    
     return {
-      title: `${plugin.title} - Скачать плагин для Minecraft | White Minecraft`,
-      description: plugin.description || `Скачать ${plugin.title} для Minecraft. ${formatDownloads(plugin.downloads)} загрузок. Поддержка версий: ${plugin.game_versions?.slice(0, 3).join(', ')}.`,
+      title: `${plugin.title} - Майнкрафт Плагин`,
+      description: fullDescription,
+      robots: 'all',
+      openGraph: {
+        siteName: 'modrinth.white-minecraft',
+        type: 'website',
+        url: url,
+        title: `${plugin.title} - Майнкрафт Плагин`,
+        description: plugin.description,
+        images: plugin.icon_url ? [{ url: plugin.icon_url }] : [],
+      },
+      twitter: {
+        card: 'summary',
+        title: `${plugin.title} - Майнкрафт Плагин`,
+        description: plugin.description,
+        images: plugin.icon_url ? [plugin.icon_url] : [],
+      },
+      other: {
+        'theme-color': '#1bd96a',
+      },
     }
   } catch {
     return {

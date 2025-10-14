@@ -13,9 +13,30 @@ import rehypeRaw from 'rehype-raw'
 export async function generateMetadata({ params }) {
   try {
     const pack = await getMod(params.slug)
+    const url = `https://modrinth.white-minecraft.ru/resourcepack/${params.slug}`
+    const fullDescription = pack.description || `Скачать ${pack.title} для Minecraft. ${formatDownloads(pack.downloads)} загрузок. Поддержка версий: ${pack.game_versions?.slice(0, 3).join(', ')}.`
+    
     return {
-      title: `${pack.title} - Скачать ресурспак для Minecraft | White Minecraft`,
-      description: pack.description || `Скачать ${pack.title} для Minecraft. ${formatDownloads(pack.downloads)} загрузок. Поддержка версий: ${pack.game_versions?.slice(0, 3).join(', ')}.`,
+      title: `${pack.title} - Майнкрафт Ресурспак`,
+      description: fullDescription,
+      robots: 'all',
+      openGraph: {
+        siteName: 'modrinth.white-minecraft',
+        type: 'website',
+        url: url,
+        title: `${pack.title} - Майнкрафт Ресурспак`,
+        description: pack.description,
+        images: pack.icon_url ? [{ url: pack.icon_url }] : [],
+      },
+      twitter: {
+        card: 'summary',
+        title: `${pack.title} - Майнкрафт Ресурспак`,
+        description: pack.description,
+        images: pack.icon_url ? [pack.icon_url] : [],
+      },
+      other: {
+        'theme-color': '#1bd96a',
+      },
     }
   } catch {
     return {

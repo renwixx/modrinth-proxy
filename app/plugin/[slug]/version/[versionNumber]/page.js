@@ -10,9 +10,30 @@ export async function generateMetadata({ params }) {
     
     if (!version) throw new Error('Version not found')
     
+    const url = `https://modrinth.white-minecraft.ru/plugin/${params.slug}/version/${params.versionNumber}`
+    const description = version.changelog ? version.changelog.slice(0, 150) : `Скачать версию ${version.version_number} плагина ${plugin.title}`
+    
     return {
-      title: `${plugin.title} ${version.version_number} - Скачать версию | White Minecraft`,
-      description: version.changelog ? version.changelog.slice(0, 150) : `Скачать версию ${version.version_number} плагина ${plugin.title}`,
+      title: `${version.version_number} - ${plugin.title}`,
+      description: description,
+      robots: 'all',
+      openGraph: {
+        siteName: 'modrinth.white-minecraft',
+        type: 'website',
+        url: url,
+        title: `${version.version_number} - ${plugin.title}`,
+        description: version.changelog ? version.changelog.slice(0, 150) : plugin.description,
+        images: plugin.icon_url ? [{ url: plugin.icon_url }] : [],
+      },
+      twitter: {
+        card: 'summary',
+        title: `${version.version_number} - ${plugin.title}`,
+        description: version.changelog ? version.changelog.slice(0, 150) : plugin.description,
+        images: plugin.icon_url ? [plugin.icon_url] : [],
+      },
+      other: {
+        'theme-color': '#1bd96a',
+      },
     }
   } catch {
     return {
@@ -52,6 +73,7 @@ export default async function PluginVersionPage({ params }) {
       contentType="plugin"
       pluralName="plugins"
       singularName="plugin"
+      versionsCount={versions.length}
     />
   )
 }
