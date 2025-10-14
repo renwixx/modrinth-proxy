@@ -103,30 +103,32 @@ npm run dev
 
 ### Фильтрация контента
 
-Сайт блокирует контент по требованиям Роскомнадзора через конфигурацию в `lib/contentFilter.js`:
+Сайт блокирует контент по требованиям Роскомнадзора через OOP систему блокировок.
 
-**Блокировка проектов (по slug):**
-```javascript
-const BLACKLIST_PROJECTS = [
-  'project-slug',
-  // ...
+**Структура блокировок:**
+
+Все блокировки хранятся в JSON файлах в директории `lib/blacklist/`:
+- `projects-mods.json` - заблокированные моды
+- `projects-resourcepacks.json` - заблокированные ресурспаки  
+- `projects-datapacks.json` - заблокированные датапаки
+- `projects-modpacks.json` - заблокированные модпаки
+- `organizations.json` - заблокированные организации
+- `url-patterns.json` - заблокированные URL паттерны
+- `words.json` - заблокированные слова
+
+**Добавление в блокировку:**
+
+Просто отредактируйте соответствующий JSON файл:
+```json
+[
+  "project-slug-1",
+  "project-slug-2"
 ]
 ```
 
-**Блокировка организаций:**
-```javascript
-const BLACKLIST_ORGANIZATIONS = [
-  'organization-id',
-  // ...
-]
-```
+**OOP менеджер:**
 
-**Блокировка слов:**
-```javascript
-const BLACKLIST_WORDS = [
-  'blocked-word',
-  // ...
-]
+Система управляется через `lib/blacklistManager.js` с классами `BlacklistCategory` и `BlacklistManager`
 ```
 
 Заблокированный контент:
