@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getMod, getModVersions, getTeamMembers, formatDownloads, formatDate } from '@/lib/modrinth'
-import { filterModContent, isProjectBlocked, isOrganizationBlocked, filterVersionChangelog } from '@/lib/contentFilter'
+import { filterModContent, filterTeamMembers, isProjectBlocked, isOrganizationBlocked, filterVersionChangelog } from '@/lib/contentFilter'
 import DownloadModal from '@/app/components/DownloadModal'
 import MobileDownloadButton from '@/app/components/MobileDownloadButton'
 import ModSidebar from '@/app/components/ModSidebar'
@@ -29,6 +29,7 @@ export default async function ShaderChangelogPage({ params }) {
   try {
     [shader, versions, teamMembers] = await Promise.all([getMod(slug), getModVersions(slug), getTeamMembers(slug)]);
     shader = filterModContent(shader);
+    teamMembers = filterTeamMembers(teamMembers);
     if (isOrganizationBlocked(shader.organization)) notFound()
   } catch (error) {
     notFound()

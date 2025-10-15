@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { formatDownloads, formatDate, formatFileSize } from '@/lib/modrinth'
-import { filterVersionChangelog } from '@/lib/contentFilter'
+import { filterVersionChangelog, filterAvatar } from '@/lib/contentFilter'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
@@ -45,7 +45,10 @@ class VersionPageData {
 class VersionMetadata {
   constructor(version, author) {
     this.version = version
-    this.author = author
+    this.author = author ? {
+      ...author,
+      avatar_url: filterAvatar(author.avatar_url)
+    } : null
   }
 
   render() {

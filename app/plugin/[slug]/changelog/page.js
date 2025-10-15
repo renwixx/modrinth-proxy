@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { notFound} from 'next/navigation'
 import { getMod, getModVersions, getTeamMembers, formatDownloads, formatDate } from '@/lib/modrinth'
-import { filterModContent, isProjectBlocked, isOrganizationBlocked, filterVersionChangelog } from '@/lib/contentFilter'
+import { filterModContent, filterTeamMembers, isProjectBlocked, isOrganizationBlocked, filterVersionChangelog } from '@/lib/contentFilter'
 import DownloadModal from '@/app/components/DownloadModal'
 import MobileDownloadButton from '@/app/components/MobileDownloadButton'
 import ModSidebar from '@/app/components/ModSidebar'
@@ -64,6 +64,7 @@ export default async function PluginChangelogPage({ params }) {
     ]);
     
     plugin = filterModContent(plugin);
+    teamMembers = filterTeamMembers(teamMembers);
     
     if (isOrganizationBlocked(plugin.organization)) {
       return (
