@@ -11,9 +11,9 @@ import VersionsList from '@/app/components/VersionsList'
 export async function generateMetadata({ params }) {
   try {
     const shader = await getMod(params.slug)
-    return { title: `${shader.title} - Версии | White Minecraft` }
+    return { title: `${shader.title} - Версии | ModrinthProxy` }
   } catch {
-    return { title: 'Шейдер не найден | White Minecraft' }
+    return { title: 'Шейдер не найден | ModrinthProxy' }
   }
 }
 

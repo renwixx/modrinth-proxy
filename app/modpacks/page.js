@@ -5,7 +5,7 @@ import ModpackSidebarFilters from './ModpackSidebarFilters'
 import MobileMenu from './MobileMenu'
 
 export const metadata = {
-  title: 'Модпаки для Minecraft - Скачать бесплатно | White Minecraft',
+  title: 'Модпаки для Minecraft - Скачать бесплатно | ModrinthProxy',
   description: 'Скачать модпаки для Minecraft на русском языке. Fabric, Forge, NeoForge, Quilt. Тысячи готовых сборок для любой версии Minecraft.',
 }
 

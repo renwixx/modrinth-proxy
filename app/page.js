@@ -23,7 +23,7 @@ export default function Home() {
           <div className="mb-6 md:mb-8 inline-block">
             <img 
               src="/icon.png" 
-              alt="White Minecraft Logo" 
+              alt="ModrinthProxy Logo" 
               className="w-20 h-20 md:w-24 md:h-24 object-contain drop-shadow-[0_0_30px_rgba(26,230,109,0.6)] transform hover:scale-110 hover:rotate-6 transition-all duration-300 animate-float"
             />
           </div>

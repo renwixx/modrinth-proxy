@@ -5,7 +5,7 @@ import ShaderSidebarFilters from './ShaderSidebarFilters'
 import MobileMenu from './MobileMenu'
 
 export const metadata = {
-  title: 'Шейдеры для Minecraft - Скачать бесплатно | White Minecraft',
+  title: 'Шейдеры для Minecraft - Скачать бесплатно | ModrinthProxy',
   description: 'Скачать шейдеры для Minecraft. Iris, OptiFine, Canvas. Реалистичная графика, тени, отражения для любой версии Minecraft.',
 }
 

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 export const metadata = {
-  title: '404 - Страница не найдена | White Minecraft',
+  title: '404 - Страница не найдена | ModrinthProxy',
   description: 'Запрашиваемая страница не найдена',
 }
 

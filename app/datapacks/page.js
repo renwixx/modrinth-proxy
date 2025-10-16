@@ -5,7 +5,7 @@ import DatapackSidebarFilters from './DatapackSidebarFilters'
 import MobileMenu from './MobileMenu'
 
 export const metadata = {
-  title: 'Датапаки для Minecraft - Скачать бесплатно | White Minecraft',
+  title: 'Датапаки для Minecraft - Скачать бесплатно | ModrinthProxy',
   description: 'Скачать датапаки для Minecraft. Новые механики, миры, приключения. Тысячи датапаков для любой версии Minecraft.',
 }
 

@@ -13,9 +13,9 @@ import rehypeRaw from 'rehype-raw'
 export async function generateMetadata({ params }) {
   try {
     const shader = await getMod(params.slug)
-    return { title: `${shader.title} - Изменения | White Minecraft` }
+    return { title: `${shader.title} - Изменения | ModrinthProxy` }
   } catch {
-    return { title: 'Шейдер не найден | White Minecraft' }
+    return { title: 'Шейдер не найден | ModrinthProxy' }
   }
 }
 

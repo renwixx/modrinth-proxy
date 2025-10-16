@@ -12,11 +12,11 @@ export async function generateMetadata({ params }) {
   try {
     const pack = await getMod(params.slug)
     return {
-      title: `${pack.title} - Версии | White Minecraft`,
+      title: `${pack.title} - Версии | ModrinthProxy`,
     }
   } catch {
     return {
-      title: 'Датапак не найден | White Minecraft',
+      title: 'Датапак не найден | ModrinthProxy',
     }
   }
 }

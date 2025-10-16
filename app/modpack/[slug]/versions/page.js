@@ -11,9 +11,9 @@ import VersionsList from '@/app/components/VersionsList'
 export async function generateMetadata({ params }) {
   try {
     const modpack = await getMod(params.slug)
-    return { title: `${modpack.title} - Версии | White Minecraft` }
+    return { title: `${modpack.title} - Версии | ModrinthProxy` }
   } catch {
-    return { title: 'Модпак не найден | White Minecraft' }
+    return { title: 'Модпак не найден | ModrinthProxy' }
   }
 }
 

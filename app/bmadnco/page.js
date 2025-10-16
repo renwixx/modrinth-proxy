@@ -1,7 +1,7 @@
 import { BLACKLIST_PROJECTS, BLACKLIST_ORGANIZATIONS, BLACKLIST_PATTERNS } from '@/lib/contentFilter'
 
 export const metadata = {
-  title: 'О проекте - White Minecraft',
+  title: 'О проекте - ModrinthProxy',
   description: 'Как работает наш сервис и технические детали',
 }
 
@@ -11,7 +11,7 @@ export default function AboutPage() {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12 animate-fade-in">
           <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-modrinth-green via-blue-400 to-purple-400 bg-clip-text text-transparent">
-            О проекте White Minecraft
+            О проекте ModrinthProxy
           </h1>
           <p className="text-xl text-gray-400">
             Технические детали и принципы работы
@@ -28,7 +28,7 @@ export default function AboutPage() {
             </h2>
             <div className="text-gray-300 space-y-4 leading-relaxed">
               <p className="text-lg">
-                White Minecraft - это современный веб-интерфейс для удобного поиска и скачивания модификаций для Minecraft.
+                ModrinthProxy - это современный веб-интерфейс для удобного поиска и скачивания модификаций для Minecraft.
               </p>
               <p>
                 Наш сервис работает как <span className="font-semibold text-white">каталог модификаций</span>, предоставляя удобный доступ к информации из открытых источников. 

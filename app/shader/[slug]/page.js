@@ -40,7 +40,7 @@ export async function generateMetadata({ params }) {
     }
   } catch {
     return {
-      title: 'Шейдер не найден | White Minecraft',
+      title: 'Шейдер не найден | ModrinthProxy',
       description: 'Запрашиваемый шейдер не найден',
     }
   }

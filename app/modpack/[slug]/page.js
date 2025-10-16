@@ -40,7 +40,7 @@ export async function generateMetadata({ params }) {
     }
   } catch {
     return {
-      title: 'Модпак не найден | White Minecraft',
+      title: 'Модпак не найден | ModrinthProxy',
       description: 'Запрашиваемый модпак не найден',
     }
   }

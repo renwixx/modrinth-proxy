@@ -5,7 +5,7 @@ import PluginSidebarFilters from './PluginSidebarFilters'
 import MobileMenu from './MobileMenu'
 
 export const metadata = {
-  title: 'Плагины для Minecraft - Скачать бесплатно | White Minecraft',
+  title: 'Плагины для Minecraft - Скачать бесплатно | ModrinthProxy',
   description: 'Скачать плагины для Minecraft серверов. Bukkit, Spigot, Paper, Purpur, Folia. Тысячи плагинов для любой версии Minecraft.',
 }
 

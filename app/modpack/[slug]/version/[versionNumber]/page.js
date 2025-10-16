@@ -37,7 +37,7 @@ export async function generateMetadata({ params }) {
     }
   } catch {
     return {
-      title: 'Версия не найдена | White Minecraft',
+      title: 'Версия не найдена | ModrinthProxy',
       description: 'Запрашиваемая версия не найдена',
     }
   }

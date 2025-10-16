@@ -5,7 +5,7 @@ import ResourcepackSidebarFilters from './ResourcepackSidebarFilters'
 import MobileMenu from './MobileMenu'
 
 export const metadata = {
-  title: 'Ресурспаки для Minecraft - Скачать бесплатно | White Minecraft',
+  title: 'Ресурспаки для Minecraft - Скачать бесплатно | ModrinthProxy',
   description: 'Скачать ресурспаки для Minecraft. Текстуры, модели, звуки. Реалистичные, мультяшные, HD. Тысячи ресурспаков для любой версии.',
 }
 

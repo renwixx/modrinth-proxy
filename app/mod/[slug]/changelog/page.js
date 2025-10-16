@@ -14,12 +14,12 @@ export async function generateMetadata({ params }) {
   try {
     const mod = await getMod(params.slug)
     return {
-      title: `${mod.title} - Изменения | White Minecraft`,
+      title: `${mod.title} - Изменения | ModrinthProxy`,
       description: `История изменений мода ${mod.title}`,
     }
   } catch {
     return {
-      title: 'Мод не найден | White Minecraft',
+      title: 'Мод не найден | ModrinthProxy',
       description: 'Запрашиваемый мод не найден',
     }
   }

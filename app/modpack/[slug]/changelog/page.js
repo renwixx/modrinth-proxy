@@ -13,9 +13,9 @@ import rehypeRaw from 'rehype-raw'
 export async function generateMetadata({ params }) {
   try {
     const modpack = await getMod(params.slug)
-    return { title: `${modpack.title} - Изменения | White Minecraft` }
+    return { title: `${modpack.title} - Изменения | ModrinthProxy` }
   } catch {
-    return { title: 'Модпак не найден | White Minecraft' }
+    return { title: 'Модпак не найден | ModrinthProxy' }
   }
 }
 
