@@ -1,11 +1,11 @@
-export const revalidate = 1800
+export const revalidate = 3600
 
 export async function GET() {
   try {
     const res = await fetch(
       'https://api.github.com/repos/b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0/modrinth-proxy/commits',
       {
-        next: { revalidate: 1800 },
+        next: { revalidate: 3600 },
         headers: {
           'Accept': 'application/vnd.github.v3+json',
         }
@@ -24,7 +24,7 @@ export async function GET() {
     
     return Response.json(commits, {
       headers: {
-        'Cache-Control': 'public, s-maxage=1800, stale-while-revalidate=3600'
+        'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400'
       }
     })
   } catch (error) {
